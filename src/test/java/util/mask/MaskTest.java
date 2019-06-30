@@ -1,4 +1,4 @@
-package mask;
+package util.mask;
 
 
 import org.junit.jupiter.api.Test;

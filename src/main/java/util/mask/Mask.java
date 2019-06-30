@@ -1,4 +1,4 @@
-package mask;
+package util.mask;
 
 import java.security.MessageDigest;
 
@@ -17,6 +17,12 @@ public class Mask {
     private static final int PHONE_END = 8;
     private static final String EMAIL_MASK = "*";
 
+    /**
+     * mask yyyymmdd of Id with MD5Self
+     *
+     * @param str id str
+     * @return mask id str
+     */
     public static String getIdMask(String str) {
         StringBuilder stringBuilder = new StringBuilder(str.trim());
         if (stringBuilder.length() == ID_LEN18) {
@@ -27,6 +33,12 @@ public class Mask {
         return stringBuilder.toString();
     }
 
+    /**
+     * mask mid four num of Phone with ****
+     *
+     * @param str phone str
+     * @return mask phone str
+     */
     public static String getPhoneMask(String str) {
         StringBuilder stringBuilder = new StringBuilder(str.trim());
         if (stringBuilder.length() == PHONE_LEN) {
@@ -35,6 +47,12 @@ public class Mask {
         return stringBuilder.toString();
     }
 
+    /**
+     * mask all str before character '@' of email with *
+     *
+     * @param str email str
+     * @return mask email str
+     */
     public static String getEmailMask(String str) {
         StringBuilder stringBuilder = new StringBuilder(str.trim());
         int index = stringBuilder.lastIndexOf("@");
@@ -44,6 +62,13 @@ public class Mask {
         return stringBuilder.toString();
     }
 
+    /**
+     * get MD5 str
+     * change two index of the str to avoid decode
+     *
+     * @param str str
+     * @return MD5 str
+     */
     private static String getMd5(String str) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
