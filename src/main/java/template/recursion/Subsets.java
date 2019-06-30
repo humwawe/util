@@ -25,9 +25,10 @@ public class Subsets {
     }
 
     /**
-     * get nums subsets2, need sort first
+     * get nums subsets2
+     * need sort first
      *
-     * @param nums    a collection of integers that might contain duplicates num
+     * @param nums    a collection of integers that might contain *duplicates* num
      * @param pos     start pos
      * @param results return results
      * @param result  tmp result

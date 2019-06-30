@@ -64,7 +64,7 @@ public class Mask {
 
     /**
      * get MD5 str
-     * change two index of the str to avoid decode
+     * change two position of the str to avoid decode
      *
      * @param str str
      * @return MD5 str
