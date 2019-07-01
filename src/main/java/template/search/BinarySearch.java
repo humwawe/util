@@ -1,4 +1,4 @@
-package template.Search;
+package template.search;
 
 /**
  * @author hum
