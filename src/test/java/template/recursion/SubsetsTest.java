@@ -23,9 +23,19 @@ class SubsetsTest {
     void testSubsets2() {
         List<Integer> result = new ArrayList<>();
         List<List<Integer>> results = new ArrayList<>();
-        int[] nums = new int[]{1, 2, 2};
+        int[] nums = new int[]{1, 2, 2, 2};
         Arrays.sort(nums);
         subsets.helper2(nums, 0, results, result);
+        System.out.println(results);
+    }
+
+    @Test
+    void testSubsets3() {
+        List<Integer> result = new ArrayList<>();
+        List<List<Integer>> results = new ArrayList<>();
+        int[] nums = new int[]{1, 1, 1, 2};
+        Arrays.sort(nums);
+        subsets.helper3(nums, 0, results, result);
         System.out.println(results);
     }
 }
