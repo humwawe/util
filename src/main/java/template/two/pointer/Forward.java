@@ -32,4 +32,20 @@ public class Forward {
             // do something
         }
     }
+
+
+    public void helper2() {
+        int len = 10;
+        // 左j 右i
+        for (int i = 0, j = 0; i < len; i++) {
+            while (j < i && check(i, j)) {
+                j++;
+            }
+            // 具体问题的逻辑
+        }
+    }
+
+    private boolean check(int i, int j) {
+        return true;
+    }
 }
