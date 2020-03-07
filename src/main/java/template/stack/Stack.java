@@ -4,6 +4,7 @@ package template.stack;
  * @author hum
  */
 public class Stack {
+    // 单调栈
     public void helper() {
         int tt = 0;
         int n = 10;
