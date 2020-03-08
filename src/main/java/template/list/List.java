@@ -41,18 +41,5 @@ public class List {
     void remove(int k) {
         ne[k] = ne[ne[k]];
     }
-
-    public static void main(String[] args) {
-        List list = new List();
-        list.insert(1);
-        list.insert(list.idx - 1, 2);
-        list.insert(list.idx - 1, 3);
-//        list.insert(3);
-//        list.insert(4);
-        list.insert(0, 5);
-        for (int i = list.head; i != -1; i = list.ne[i]) {
-            System.out.println(list.e[i]);
-        }
-    }
 }
 
