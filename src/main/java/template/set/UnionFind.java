@@ -8,6 +8,7 @@ public class UnionFind {
         int n = 100;
         //存储每个点的祖宗节点
         int[] p = new int[n + 1];
+        int[] size = new int[n + 1];
 
         public UnionFind1() {
             // 初始化，假定节点编号是1~n
@@ -26,6 +27,7 @@ public class UnionFind {
 
         // 合并a和b所在的两个集合：n
         void union(int a, int b) {
+            size[find(b)] += size[find(a)];
             p[find(a)] = find(b);
         }
     }
