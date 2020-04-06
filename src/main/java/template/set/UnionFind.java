@@ -27,6 +27,9 @@ public class UnionFind {
 
         // 合并a和b所在的两个集合：n
         void union(int a, int b) {
+            if (find(a) == find(b)) {
+                return;
+            }
             size[find(b)] += size[find(a)];
             p[find(a)] = find(b);
         }
