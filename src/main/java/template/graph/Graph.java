@@ -8,11 +8,13 @@ import java.util.*;
 public class Graph {
     int n = 100010;
     int m = n * 2;
-    // 对于每个点k，开一个单链表，存储k所有可以走到的点。h[k]存储这个单链表的头结点
+    // 对于每个点k，开一个单链表，存储k所有可以一步走到的点。h[k]存储这个单链表的头结点
     int[] h = new int[n];
     int[] e = new int[m];
     int[] ne = new int[m];
     int idx;
+
+    boolean[] st = new boolean[n];
 
     public Graph() {
         idx = 0;
@@ -25,9 +27,37 @@ public class Graph {
         h[a] = idx++;
     }
 
+    void dfs(int u) {
+        st[u] = true;
+        for (int i = h[u]; i != -1; i = ne[i]) {
+            int j = e[i];
+            if (!st[j]) {
+                dfs(j);
+            }
+        }
+    }
+
+    void bfs(int u) {
+        int[] d = new int[n];
+        Arrays.fill(d, -1);
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(u);
+        d[u] = 0;
+        while (!queue.isEmpty()) {
+            int p = queue.poll();
+            for (int i = h[p]; i != -1; i = ne[i]) {
+                int j = e[i];
+                if (d[j] == -1) {
+                    d[j] = d[p] + 1;
+                    queue.add(j);
+                }
+            }
+        }
+    }
+
     void init2() {
         Map<Integer, Set<Integer>> graph = new HashMap<>();
-        int[][] edges = new int[100][2];
+        int[][] edges = new int[100][3];
         for (int[] edge : edges) {
             int u = edge[0], v = edge[1];
             graph.computeIfAbsent(v, x -> new HashSet<>()).add(u);
