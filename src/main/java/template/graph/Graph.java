@@ -14,7 +14,7 @@ public class Graph {
     int[] ne = new int[m];
     int idx;
 
-    boolean[] st = new boolean[n];
+    boolean[] vis = new boolean[n];
 
     public Graph() {
         idx = 0;
@@ -28,27 +28,27 @@ public class Graph {
     }
 
     void dfs(int u) {
-        st[u] = true;
+        vis[u] = true;
         for (int i = h[u]; i != -1; i = ne[i]) {
             int j = e[i];
-            if (!st[j]) {
+            if (!vis[j]) {
                 dfs(j);
             }
         }
     }
 
     void bfs(int u) {
-        int[] d = new int[n];
-        Arrays.fill(d, -1);
+        int[] dist = new int[n];
+        Arrays.fill(dist, -1);
         Queue<Integer> queue = new ArrayDeque<>();
         queue.add(u);
-        d[u] = 0;
+        dist[u] = 0;
         while (!queue.isEmpty()) {
             int p = queue.poll();
             for (int i = h[p]; i != -1; i = ne[i]) {
                 int j = e[i];
-                if (d[j] == -1) {
-                    d[j] = d[p] + 1;
+                if (dist[j] == -1) {
+                    dist[j] = dist[p] + 1;
                     queue.add(j);
                 }
             }
