@@ -47,7 +47,7 @@ public class BellmanFord {
         dist[1] = 0;
         for (int i = 0; i < k; i++) {
             // 需要有backup数组，保证每次用的上一次的更新结果
-            // 如果没有k限制，则不需要，因为用当前的dist更新不会影响最后的最短距离
+            // 如果没有k限制，则不需要，因为用当前的dist更新不会影响最后的最短距离（会影响当前步，考虑1->2:1 2->3:1 1->3:3的图例只走一步则1->3为3）
             oldDist = Arrays.copyOfRange(dist, 0, N);
             for (int j = 0; j < m; j++) {
                 int a = u[j], b = v[j], w = wei[j];
