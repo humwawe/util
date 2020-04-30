@@ -91,16 +91,4 @@ public class Spfa {
         return false;
     }
 
-    public static void main(String[] args) {
-        Spfa spfa = new Spfa();
-        spfa.idx = 0;
-        Arrays.fill(spfa.h, -1);
-        spfa.add(1, 2, 1);
-        spfa.add(2, 3, 1);
-        spfa.add(1, 3, 3);
-        spfa.spfa(3);
-        System.out.println(Arrays.toString(spfa.dist));
-    }
-
-
 }
