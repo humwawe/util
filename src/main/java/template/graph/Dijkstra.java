@@ -20,7 +20,7 @@ public class Dijkstra {
     int[] h = new int[N];
     int[] e = new int[M];
     int[] ne = new int[M];
-    int[] w = new int[N];
+    int[] w = new int[M];
     int idx;
 
 
