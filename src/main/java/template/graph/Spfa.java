@@ -31,8 +31,10 @@ public class Spfa {
         h[a] = idx++;
     }
 
+    int n;
+
     // 求1号点到n号点的最短路距离，如果从1号点无法走到n号点则返回-1
-    int spfa(int n) {
+    int spfa() {
         Arrays.fill(dist, 0x3f3f3f3f);
         dist[1] = 0;
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();

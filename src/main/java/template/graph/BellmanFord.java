@@ -15,9 +15,9 @@ public class BellmanFord {
     int[] u = new int[M];
     int[] v = new int[M];
     int[] wei = new int[M];
-    int m;
+    int n, m;
 
-    int BellmanFord(int n) {
+    int BellmanFord() {
         Arrays.fill(dist, 0x3f3f3f3f);
         dist[1] = 0;
         // 更新n-1次
@@ -42,7 +42,7 @@ public class BellmanFord {
     int[] oldDist = new int[N];
 
     // 最多k次的最短路径
-    int BellmanFordK(int n) {
+    int BellmanFordK() {
         Arrays.fill(dist, 0x3f3f3f3f);
         dist[1] = 0;
         for (int i = 0; i < k; i++) {
