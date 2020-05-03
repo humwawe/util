@@ -1,7 +1,9 @@
 package template.math;
 
 /**
- * 欧拉函数，1到n中与n互斥的个数
+ * 欧拉函数ϕ(n)，1到n中与n互斥的个数
+ * 若a与n互斥，则有欧拉定理：a^ϕ(n) mod n = 1
+ * 当n为质数，ϕ(n)=n-1，有费马定理：a^(n-1) mod n = 1
  *
  * @author hum
  */
@@ -25,7 +27,6 @@ public class Euler {
 
         return res;
     }
-
 
     void getEulers(int n) {
         // primes[]存储所有素数
