@@ -1,6 +1,8 @@
 package template.math;
 
 /**
+ * 求 m^k mod p，时间复杂度 O(logk)。
+ *
  * @author hum
  */
 public class QuickPower {
