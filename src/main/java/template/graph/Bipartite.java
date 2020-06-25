@@ -61,6 +61,7 @@ public class Bipartite {
     int match() {
         int res = 0;
         for (int i = 1; i <= n1; i++) {
+            vis = new boolean[N];
             if (find(i)) {
                 res++;
             }
