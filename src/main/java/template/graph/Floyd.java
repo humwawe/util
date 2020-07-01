@@ -23,6 +23,7 @@ public class Floyd {
 
     // 算法结束后，d[a][b]表示a到b的最短距离
     // 如果存在负权边，则无解一般可以用d[a][b]判断是否大于inf/2
+    // 存在负环，可以看d[a][a]<0是否存在
     void floyd() {
         for (int k = 1; k <= n; k++) {
             for (int i = 1; i <= n; i++) {
