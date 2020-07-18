@@ -30,12 +30,12 @@ class SubsetsTest {
     }
 
     @Test
-    void testSubsets3() {
+    void testSubsets5() {
         List<Integer> result = new ArrayList<>();
         List<List<Integer>> results = new ArrayList<>();
         int[] nums = new int[]{1, 1, 1, 2};
         Arrays.sort(nums);
-        subsets.helper3(nums, 0, results, result);
+        subsets.helper5(nums, 0, results, result);
         System.out.println(results);
     }
 }
