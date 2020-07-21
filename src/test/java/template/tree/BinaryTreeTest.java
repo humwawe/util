@@ -3,19 +3,23 @@ package template.tree;
 import org.junit.jupiter.api.Test;
 import template.common.TreeNode;
 
+
 class BinaryTreeTest {
 
     @Test
     void preAndPostBuildTree() {
-        BinaryTreeBuild binaryTree = new BinaryTreeBuild();
-        System.out.println(binaryTree.preAndPostBuildTree(new int[]{1, 2}, new int[]{2, 1}));
-        TreeNode treeNode = binaryTree.deserializeBfs("5,4,7,3,#,2,#,-1,#,9");
+        BInaryTreeCodec binaryTree = new BInaryTreeCodec();
+        TreeNode treeNode = binaryTree.deserializeBfs("1,2,3,#,#,4,5");
         System.out.println(binaryTree.serializeBfs(treeNode));
-        TreeNode treeNode1 = binaryTree.deserializePre("");
         StringBuilder sb = new StringBuilder();
-        binaryTree.serializePre(treeNode1, sb);
+        binaryTree.serializePre(treeNode, sb);
         binaryTree.removeLastNull(sb);
         System.out.println(sb.toString());
-
+        TreeNode treeNode1 = binaryTree.deserializePre(sb.toString());
+        sb = new StringBuilder();
+        binaryTree.serializePost(treeNode1, sb);
+        binaryTree.removeFirstNull(sb);
+        System.out.println(sb.toString());
+        System.out.println("".split(",").length);
     }
 }

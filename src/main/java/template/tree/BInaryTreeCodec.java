@@ -5,6 +5,10 @@ import template.common.TreeNode;
 import java.util.*;
 
 /**
+ * 序列化反序列化
+ * 前序和层次都是可以常规把空也当做一个元素，最后序列化的结果去掉末尾多余的#，后序则去掉前面的#
+ * 中序遍历无法反序列化，因为找不到根节点
+ *
  * @author hum
  */
 public class BInaryTreeCodec {
@@ -20,6 +24,24 @@ public class BInaryTreeCodec {
             return;
         }
         for (int i = 0; i < len; i++) {
+            sb.append(split[i]).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+    }
+
+    void removeFirstNull(StringBuilder sb) {
+        String[] split = sb.toString().split(",");
+        int len = split.length;
+        // sb以","开头，分割后第一个字符为空，跳过
+        int idx = 1;
+        while (idx < len && split[idx].equals("#")) {
+            idx++;
+        }
+        sb.setLength(0);
+        if (idx == len) {
+            return;
+        }
+        for (int i = idx; i < len; i++) {
             sb.append(split[i]).append(",");
         }
         sb.deleteCharAt(sb.length() - 1);
@@ -142,4 +164,39 @@ public class BInaryTreeCodec {
         root.right = deserializePreHelper(list);
         return root;
     }
+
+
+    void serializePost(TreeNode root, StringBuilder sb) {
+        if (root == null) {
+            sb.append(",#");
+            return;
+        }
+        serializePost(root.left, sb);
+        serializePost(root.right, sb);
+        sb.append(",").append(root.val);
+    }
+
+
+    public TreeNode deserializePost(String data) {
+        String[] values = data.split(",");
+        LinkedList<String> list = new LinkedList<>(Arrays.asList(values));
+        return deserializePostHelper(list);
+    }
+
+    private TreeNode deserializePostHelper(LinkedList<String> list) {
+        if (list.size() == 0) {
+            return null;
+        }
+        String s = list.removeLast();
+        if (s.equals("#")) {
+            list.remove(0);
+            return null;
+        }
+        TreeNode root = new TreeNode(Integer.parseInt(s));
+        root.right = deserializePostHelper(list);
+        root.left = deserializePostHelper(list);
+        return root;
+    }
+
+
 }
