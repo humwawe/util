@@ -5,6 +5,11 @@ import template.common.TreeNode;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 可以从层次，前序，后序构建bst，因为bst的大小关系，不需要多余的空节点
+ *
+ * @author hum
+ */
 public class BstBuild {
     TreeNode bfsBuildBstTree(int[] bfsOrder) {
         List<Integer> list = new ArrayList<>();
@@ -33,6 +38,7 @@ public class BstBuild {
         root.right = bfsBuildBstTreeHelper(r);
         return root;
     }
+
     // 全局idx
     int idx = 0;
 
@@ -82,11 +88,11 @@ public class BstBuild {
 
     TreeNode postBuildBstTree(int[] postOrder) {
         int len = postOrder.length;
-        idx=len-1;
-        return postBuildBstTreeHelper(postOrder,  Integer.MIN_VALUE);
+        idx = len - 1;
+        return postBuildBstTreeHelper(postOrder, Integer.MIN_VALUE);
     }
 
-    private TreeNode postBuildBstTreeHelper(int[] postOrder,  int bound) {
+    private TreeNode postBuildBstTreeHelper(int[] postOrder, int bound) {
         if (idx < 0 || postOrder[idx] < bound) {
             return null;
         }
@@ -123,10 +129,4 @@ public class BstBuild {
         return root;
     }
 
-    public static void main(String[] args) {
-        BstBuild binaryTreeBuild = new BstBuild();
-        TreeNode treeNode = binaryTreeBuild.postBuildBstTree2(new int[]{7, 9,10,8,14,13,15,12});
-
-        System.out.println(treeNode);
-    }
 }
