@@ -154,12 +154,11 @@ public class BInaryTreeCodec {
         if (list.size() == 0) {
             return null;
         }
-        if (list.get(0).equals("#")) {
-            list.remove(0);
+        String s = list.remove(0);
+        if (s.equals("#")) {
             return null;
         }
-        TreeNode root = new TreeNode(Integer.parseInt(list.get(0)));
-        list.remove(0);
+        TreeNode root = new TreeNode(Integer.parseInt(s));
         root.left = deserializePreHelper(list);
         root.right = deserializePreHelper(list);
         return root;
@@ -189,7 +188,6 @@ public class BInaryTreeCodec {
         }
         String s = list.removeLast();
         if (s.equals("#")) {
-            list.remove(0);
             return null;
         }
         TreeNode root = new TreeNode(Integer.parseInt(s));
