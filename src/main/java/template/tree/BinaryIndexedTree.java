@@ -8,6 +8,8 @@ public class BinaryIndexedTree {
     int[] t = new int[N];
     int n;
 
+    // n&(~n+1) ~n=-1-n
+    // Integer.lowestOneBit(x)
     int lowbit(int x) {
         return x & -x;
     }
