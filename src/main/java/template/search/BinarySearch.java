@@ -83,6 +83,8 @@ public class BinarySearch {
 
     double bsearch3(double l, double r) {
         // eps 表示精度，取决于题目对精度的要求
+        // 保留k位小数，一般可以取10^-(k+2)
+        // 精度不好确认，可以采用固定循环次数的方法
         final double eps = 1e-6;
         while (r - l > eps) {
             double mid = (l + r) / 2;
