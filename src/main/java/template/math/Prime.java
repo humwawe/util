@@ -32,6 +32,22 @@ public class Prime {
         }
     }
 
+    // 埃氏筛法优化，从x^2开始，将x^2,(x+1)*x,..n/x*x标记
+    void getPrimesQuick(int n) {
+        int[] primes = new int[n + 1];
+        boolean[] vis = new boolean[n + 1];
+        int cnt = 0;
+        for (int i = 2; i <= n; i++) {
+            if (vis[i]) {
+                continue;
+            }
+            primes[cnt++] = i;
+            for (int j = i; j <= n / i; j++) {
+                vis[i * j] = true;
+            }
+        }
+    }
+
     //线性筛法，每个合数被最小的质因子筛掉
     void getPrimes2(int n) {
         int[] primes = new int[n + 1];
@@ -54,6 +70,7 @@ public class Prime {
     void divide(int x) {
         for (int i = 2; i <= x / i; i++) {
             if (x % i == 0) {
+                // 个数
                 int s = 0;
                 while (x % i == 0) {
                     x /= i;
