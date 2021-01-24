@@ -28,10 +28,28 @@ public class Euler {
         return res;
     }
 
+
+    // 埃氏筛法
     void getEulers(int n) {
+        int[] euler = new int[n + 1];
+        for (int i = 2; i <= n; i++) {
+            euler[i] = i;
+        }
+        for (int i = 2; i <= n; i++) {
+            // 说明i是质数
+            if (euler[i] == i) {
+                for (int j = i; j <= n; j += i) {
+                    euler[j] = euler[j] / i * (i - 1);
+                }
+            }
+        }
+    }
+
+    // 线性筛法
+    void getEulers2(int n) {
         // primes[]存储所有素数
         int[] primes = new int[n + 1];
-        // 存储每个数的欧拉函数
+        // 存储每个数的欧拉函数（1到x中与x互斥的个数）
         int[] euler = new int[n + 1];
         boolean[] st = new boolean[n + 1];
         int cnt = 0;
