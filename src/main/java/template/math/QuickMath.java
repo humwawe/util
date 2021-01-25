@@ -9,8 +9,11 @@ public class QuickMath {
         long res = 1 % p, t = m;
         while (k > 0) {
             if ((k & 1) == 1) {
+                // 若res,t,p都是同一量级，比如int或long，则直接算可能越界
+                // 可以使用在mod下的乘积 res = qm(res, t, p)
                 res = res * t % p;
             }
+            // t = qm(t, t, p)
             t = t * t % p;
             k >>= 1;
         }
@@ -19,7 +22,7 @@ public class QuickMath {
 
 
     // 求 a*b mod p
-    long qm(long a, long b, int p) {
+    long qm(long a, long b, long p) {
         long ans = 0;
         while (b > 0) {
             if ((b & 1) == 1) {
