@@ -29,7 +29,7 @@ public class Combination {
     long[] fact = new long[N];
     long[] infact = new long[N];
 
-    // 通过预处理逆元的方式求组合数 N*logN
+    // 通过预处理逆元的方式求组合数 N*logN（当mod为质数，根据欧拉定理i^(p-2)即为i的逆元）
     // 从a个里中选b个的方案数：fact[a]*infact[b]%mod*infact[a-b]%mod
     void combination2() {
         // 预处理阶乘的余数和阶乘逆元的余数
