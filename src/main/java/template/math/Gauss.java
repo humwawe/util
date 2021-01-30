@@ -65,7 +65,7 @@ public class Gauss {
     }
 
     // 异或空间的高斯消元，返回解的个数
-    // 下标从1开始
+    // 下标从0开始
     // a[i]第0位存等式右边的值
     int gaussXor(int[] a) {
         int row = a.length;
