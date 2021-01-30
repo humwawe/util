@@ -89,6 +89,7 @@ public class Gauss {
                 res = 0;
                 break;
             }
+            // a[i][0] 为方程右边的常量，因此k取到>0，若a[i]没有常量，则可以取到=0
             for (int k = 30; k > 0; k--) {
                 if ((a[i] >> k & 1) == 1) {
                     for (int j = 0; j < row; j++) {
