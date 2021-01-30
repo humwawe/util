@@ -64,4 +64,44 @@ public class Gauss {
         return 0;
     }
 
+    // 异或空间的高斯消元，返回解的个数
+    // 下标从1开始
+    // a[i]第0位存等式右边的值
+    int gaussXor(int[] a) {
+        int row = a.length;
+        int res = 1;
+        for (int i = 0; i < row; i++) {
+            // 找最大的主元
+            for (int j = i + 1; j < row; j++) {
+                if (a[j] > a[i]) {
+                    int tmp = a[i];
+                    a[i] = a[j];
+                    a[j] = tmp;
+                }
+            }
+            // 消元完毕，有i个主元，row-i个自由元
+            if (a[i] == 0) {
+                res = 1 << (row - i);
+                break;
+            }
+            // 出现0=1的方程
+            if (a[i] == 1) {
+                res = 0;
+                break;
+            }
+            for (int k = 30; k > 0; k--) {
+                if ((a[i] >> k & 1) == 1) {
+                    for (int j = 0; j < row; j++) {
+                        if (i != j && (a[j] >> k & 1) == 1) {
+                            a[j] ^= a[i];
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+
+
 }
