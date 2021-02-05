@@ -34,8 +34,4 @@ public class Mobius {
         return mobius;
     }
 
-    public static void main(String[] args) {
-        Mobius mobius = new Mobius();
-        mobius.Mobius(10);
-    }
 }
