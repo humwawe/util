@@ -10,7 +10,7 @@ package template.math;
 public class Mobius {
 
     // 埃氏筛法求mobius函数
-    int[] Mobius(int n) {
+    int[] mobius(int n) {
         int[] mobius = new int[n];
         int[] pri = new int[n];
         boolean[] vis = new boolean[n];
