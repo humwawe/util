@@ -3,14 +3,14 @@ package template.math;
 /**
  * @author hum
  */
-public class Gauss {
+public class Gause {
 
     int n = 3;
     double[][] a = new double[n][n + 1];
     double eps = 1e-6;
 
     // 解存在a[i][n]中
-    int gauss() {
+    int gause() {
         int c, r;
         for (c = 0, r = 0; c < n; c++) {
             int t = r;
@@ -43,14 +43,13 @@ public class Gauss {
             }
             r++;
         }
-
-        if (r < n) {
-            for (int i = r; i < n; i++) {
-                if (Math.abs(a[i][n]) > eps) {
-                    // 无解
-                    return 2;
-                }
+        for (int i = r; i < n; i++) {
+            if (Math.abs(a[i][n]) > eps) {
+                // 无解
+                return 2;
             }
+        }
+        if (r < n) {
             // 有无穷多组解
             return 1;
         }
@@ -67,7 +66,7 @@ public class Gauss {
     // 异或空间的高斯消元，返回解的个数
     // 下标从0开始
     // a[i]第0位存等式右边的值
-    int gaussXor(int[] a) {
+    int gauseXor(int[] a) {
         int row = a.length;
         int res = 1;
         for (int i = 0; i < row; i++) {
