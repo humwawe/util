@@ -31,7 +31,8 @@ public class Combination {
 
     // 通过预处理逆元的方式求组合数 N*logN（当mod为质数，根据欧拉定理i^(p-2)即为i的逆元）
     // 从a个里中选b个的方案数：fact[a]*infact[b]%mod*infact[a-b]%mod
-    void combination2() {
+    // infact[a] = qmi(fact[a], mod - 2, mod)，有时候可以不算infact，需要用时采用fact计算
+    void fact() {
         // 预处理阶乘的余数和阶乘逆元的余数
         fact[0] = infact[0] = 1;
         for (int i = 1; i < N; i++) {
