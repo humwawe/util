@@ -103,5 +103,23 @@ public class Gause {
         return res;
     }
 
+    // d存储数组a的异或线性基
+    int[] d = new int[35];
+
+    // 遍历数组a，对每个元素x使用add方法素插入
+    // 插入成功返回true，否则为false
+    boolean add(int x) {
+        for (int i = 30; i >= 0; i--) {
+            if (((x >> i) & 1) == 1) {
+                if (d[i] != 0) {
+                    x ^= d[i];
+                } else {
+                    d[i] = x;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }
