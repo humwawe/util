@@ -1,6 +1,8 @@
 package template.discretization;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author hum
@@ -42,5 +44,16 @@ public class Discretization {
         }
         // 映射到1, 2, ...m
         return l;
+    }
+
+    // 使用map映射
+    Map<Integer, Integer> map = new HashMap<>();
+    int cnt = 0;
+
+    int mapping(int x) {
+        if (!map.containsKey(x)) {
+            map.put(x, cnt++);
+        }
+        return map.get(x);
     }
 }
