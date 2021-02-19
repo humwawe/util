@@ -32,4 +32,14 @@ public class BinaryIndexedTree {
         }
         return res;
     }
+
+    // 对每个元素使用add方法初始化，复杂度为O(Nlog(N))
+    // 线性初始化，记录前缀和构造
+    void init(int[] a) {
+        int[] sum = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            sum[i] = sum[i - 1] + a[i];
+            t[i] = sum[i] - sum[i - lowbit(i)];
+        }
+    }
 }
