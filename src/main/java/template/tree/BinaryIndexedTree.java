@@ -42,4 +42,28 @@ public class BinaryIndexedTree {
             t[i] = sum[i] - sum[i - lowbit(i)];
         }
     }
+
+    // 区间修改，区间查询，在t的基础构建t2
+    int[] t2 = new int[N];
+
+    // 对第一个数组数组add(c)
+    // 第二个维护x*c的树状数组
+    void add2(int x, int c) {
+        for (int i = x; i <= n; i += lowbit(i)) {
+            t2[i] += x * c;
+        }
+    }
+
+    int sum2(int x) {
+        int res = 0;
+        for (int i = x; i > 0; i -= lowbit(i)) {
+            res += t2[i];
+        }
+        return res;
+    }
+
+    // sum为第一个树状数组的值 sum2为第二个数组数组的值
+    int ask(int x) {
+        return (x + 1) * sum(x) - sum2(x);
+    }
 }
