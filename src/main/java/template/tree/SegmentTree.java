@@ -34,7 +34,7 @@ public class SegmentTree {
             return tr[u].v;
         }
         int mid = tr[u].l + tr[u].r >> 1;
-        int v = 0;
+        int v = Integer.MIN_VALUE;
         if (l <= mid) {
             v = query(u << 1, l, r);
         }
@@ -48,15 +48,14 @@ public class SegmentTree {
     void modify(int u, int x, int v) {
         if (tr[u].l == x && tr[u].r == x) {
             tr[u].v = v;
-        } else {
-            int mid = tr[u].l + tr[u].r >> 1;
-            if (x <= mid) {
-                modify(u << 1, x, v);
-            } else {
-                modify(u << 1 | 1, x, v);
-            }
-            pushUp(u);
         }
+        int mid = tr[u].l + tr[u].r >> 1;
+        if (x <= mid) {
+            modify(u << 1, x, v);
+        } else {
+            modify(u << 1 | 1, x, v);
+        }
+        pushUp(u);
     }
 
     class Node {
