@@ -11,16 +11,14 @@ public class Discretization {
     int N = 105;
     // a 原始数组
     int[] a = new int[N];
-    // b 存所有待离散化的值，下标1开始
-    int[] b = new int[N + 1];
-    int idx = 0;
+    int len = 0;
 
+    // 原地离散化，len表示离散化后的长度
     void discrete() {
         Arrays.sort(a);
-        System.out.println(Arrays.toString(a));
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < a.length; i++) {
             if (i == 0 || a[i] != a[i - 1]) {
-                b[++idx] = a[i];
+                a[len++] = a[i];
             }
         }
     }
@@ -28,21 +26,21 @@ public class Discretization {
     public int find(int x) {
         // 返回x的位置
         // 负数表示没找到，插入位置需要取反
-        return Arrays.binarySearch(b, 1, idx + 1, x);
+        return Arrays.binarySearch(a, 0, len, x);
     }
 
     public int find2(int x) {
-        // r取到idx+1，若x不存在则返回末尾加1的位置
-        int l = 1, r = idx + 1;
+        // r取到idx，若x不存在则返回末尾加1的位置
+        int l = 0, r = len;
         while (l < r) {
             int mid = l + r >> 1;
-            if (b[mid] >= x) {
+            if (a[mid] >= x) {
                 r = mid;
             } else {
                 l = mid + 1;
             }
         }
-        // 映射到1, 2, ...m
+        // 映射到0, 1, 2, ...idx
         return l;
     }
 

@@ -2,6 +2,7 @@ package template.tree;
 
 /**
  * @author hum
+ * 处理区间修改的问题
  */
 public class SegmentTree2 {
     int N = 105;
