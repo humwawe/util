@@ -59,17 +59,18 @@ public class SegmentTree2 {
         if (tr[u].l >= l && tr[u].r <= r) {
             tr[u].sum += (tr[u].r - tr[u].l + 1) * d;
             tr[u].add += d;
-        } else { // 分裂
-            pushDown(u);
-            int mid = tr[u].l + tr[u].r >> 1;
-            if (l <= mid) {
-                modify(u << 1, l, r, d);
-            }
-            if (r > mid) {
-                modify(u << 1 | 1, l, r, d);
-            }
-            pushUp(u);
+            return;
         }
+        // 分裂
+        pushDown(u);
+        int mid = tr[u].l + tr[u].r >> 1;
+        if (l <= mid) {
+            modify(u << 1, l, r, d);
+        }
+        if (r > mid) {
+            modify(u << 1 | 1, l, r, d);
+        }
+        pushUp(u);
     }
 
     class Node {
