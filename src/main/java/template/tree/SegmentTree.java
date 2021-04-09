@@ -48,6 +48,7 @@ public class SegmentTree {
     void modify(int u, int x, int v) {
         if (tr[u].l == x && tr[u].r == x) {
             tr[u].v = v;
+            return;
         }
         int mid = tr[u].l + tr[u].r >> 1;
         if (x <= mid) {
