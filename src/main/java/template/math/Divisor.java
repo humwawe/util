@@ -9,7 +9,7 @@ import java.util.*;
 public class Divisor {
     List<Integer> getDivisors(int x) {
         List<Integer> res = new ArrayList<>();
-        for (int i = 1; i <= x / i; i++) {
+        for (int i = 1; i * i <= x; i++) {
             if (x % i == 0) {
                 res.add(i);
                 if (i != x / i) {
@@ -54,7 +54,7 @@ public class Divisor {
 
     Map<Integer, Integer> divide(int x) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 2; i <= x / i; i++) {
+        for (int i = 2; i * i <= x; i++) {
             while (x % i == 0) {
                 x /= i;
                 map.put(i, map.getOrDefault(i, 0) + 1);
