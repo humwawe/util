@@ -1,5 +1,6 @@
 package template.graph;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -37,18 +38,18 @@ public class Spfa {
     int spfa() {
         Arrays.fill(dist, 0x3f3f3f3f);
         dist[1] = 0;
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
-        priorityQueue.add(1);
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(1);
         vis[1] = true;
-        while (!priorityQueue.isEmpty()) {
-            int t = priorityQueue.poll();
+        while (!queue.isEmpty()) {
+            int t = queue.poll();
             vis[t] = false;
             for (int i = h[t]; i != -1; i = ne[i]) {
                 int j = e[i];
                 if (dist[j] > dist[t] + w[i]) {
                     dist[j] = dist[t] + w[i];
                     if (!vis[j]) {
-                        priorityQueue.add(j);
+                        queue.add(j);
                         vis[j] = true;
                     }
                 }
