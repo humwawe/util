@@ -46,16 +46,16 @@ public class Kruskal {
         }
         return p[x];
     }
-}
 
-class Edge {
-    int a;
-    int b;
-    int w;
+    class Edge {
+        int a;
+        int b;
+        int w;
 
-    public Edge(int a, int b, int w) {
-        this.a = a;
-        this.b = b;
-        this.w = w;
+        public Edge(int a, int b, int w) {
+            this.a = a;
+            this.b = b;
+            this.w = w;
+        }
     }
 }
