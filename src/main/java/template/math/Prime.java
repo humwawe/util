@@ -1,5 +1,9 @@
 package template.math;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author hum
  */
@@ -81,6 +85,24 @@ public class Prime {
         }
         if (x > 1) {
             System.out.println(x + ":" + 1);
+        }
+    }
+
+    List<Integer> prime = new ArrayList<>();
+    int N = 105;
+    int[] sieve = new int[N + 1];
+
+    // sieve存每个数的最小质因子
+    void sieve() {
+        sieve[1] = 1;
+        for (int i = 2; i <= N; i++) {
+            if (sieve[i] == 0) {
+                sieve[i] = i;
+                prime.add(i);
+            }
+            for (int j = 0; j < prime.size() && prime.get(j) <= sieve[i] && i * prime.get(j) <= N; j++) {
+                sieve[i * prime.get(j)] = prime.get(j);
+            }
         }
     }
 
