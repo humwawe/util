@@ -1,6 +1,8 @@
 package template.search;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author hum
@@ -97,7 +99,7 @@ public class BinarySearch {
         return l;
     }
 
-    // [l,r] 闭区间，从左往右返回第一个大于等于t的位置，末尾最多到r
+    // [l,r) 从左往右返回第一个大于等于t的位置，返回插入位置
     int lowerBound(int[] a, int t, int l, int r) {
         while (l < r) {
             int mid = l + r >> 1;
@@ -110,8 +112,21 @@ public class BinarySearch {
         return l;
     }
 
-    // [l,r] 闭区间，从右往左返回第一个小于等于t的位置，最小最多到0
+    // [l,r) 从左往右找第一个大于t的数，返回插入位置
     int upperBound(int[] a, int t, int l, int r) {
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (a[mid] <= t) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
+    }
+
+    // [l,r] 闭区间，从右往左返回第一个小于等于t的位置，最小最多到0
+    int upperBound2(int[] a, int t, int l, int r) {
         while (l < r) {
             int mid = l + r + 1 >> 1;
             if (a[mid] <= t) {
@@ -145,4 +160,5 @@ public class BinarySearch {
         int result = Collections.binarySearch(list, t, (o1, o2) -> (o1.compareTo(o2) > 0) ? 1 : -1);
         return (result >= 0) ? result : ~result;
     }
+
 }
