@@ -27,7 +27,7 @@ public class Manacher {
         int mx = 0, id = 0;
         for (int i = 1; i < l; i++) {
             mp[i] = mx > i ? Math.min(mp[2 * id - i], mx - i) : 1;
-            // 如果没有哨兵，需要保证 i - mp[i] >= 0
+            // 如果没有哨兵，比如求奇数回文串，可以直接在原串上处理，需要保证 i - mp[i] >= 0 && i + mp[i] < size
             while (ma[i + mp[i]] == ma[i - mp[i]]) {
                 mp[i]++;
             }
