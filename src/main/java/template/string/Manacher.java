@@ -1,7 +1,5 @@
 package template.string;
 
-import java.util.Arrays;
-
 /**
  * @author hum
  */
@@ -39,12 +37,5 @@ public class Manacher {
             }
         }
     }
-
-    public static void main(String[] args) {
-        Manacher manacher = new Manacher();
-        manacher.manacher("abaaba".toCharArray());
-        System.out.println(Arrays.toString(manacher.mp));
-    }
-
 
 }
