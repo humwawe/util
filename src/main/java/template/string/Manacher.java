@@ -1,5 +1,7 @@
 package template.string;
 
+import java.util.Arrays;
+
 /**
  * @author hum
  */
@@ -15,18 +17,20 @@ public class Manacher {
      * mp[i]: 1 1 2 1 4 1 2 7 2 1 4  1  2  1
      * 遍历 2*len(str)+2 mp[i]-1 为从i向左右拓展的结果
      */
-    void manacher(char s[], int len) {
+    void manacher(char s[]) {
         int l = 0;
         ma[l++] = '$';
         ma[l++] = '#';
-        for (int i = 0; i < len; i++) {
-            ma[l++] = s[i];
+        for (char c : s) {
+            ma[l++] = c;
             ma[l++] = '#';
         }
+        mp[0] = 1;
         int mx = 0, id = 0;
-        for (int i = 0; i < l; i++) {
+        for (int i = 1; i < l; i++) {
             mp[i] = mx > i ? Math.min(mp[2 * id - i], mx - i) : 1;
-            while (i + mp[i] < l && i - mp[i] >= 0 && ma[i + mp[i]] == ma[i - mp[i]]) {
+            // 如果没有哨兵，需要保证 i - mp[i] >= 0
+            while (ma[i + mp[i]] == ma[i - mp[i]]) {
                 mp[i]++;
             }
             if (i + mp[i] > mx) {
@@ -34,6 +38,12 @@ public class Manacher {
                 id = i;
             }
         }
+    }
+
+    public static void main(String[] args) {
+        Manacher manacher = new Manacher();
+        manacher.manacher("abaaba".toCharArray());
+        System.out.println(Arrays.toString(manacher.mp));
     }
 
 
