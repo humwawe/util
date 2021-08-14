@@ -6,15 +6,16 @@ import java.util.*;
  * @author hum
  */
 public class Graph {
-    int n = 100010;
-    int m = n * 2;
+    int N = 100010;
+    int M = N * 2;
     // 对于每个点k，开一个单链表，存储k所有可以一步走到的点。h[k]存储这个单链表的头结点
-    int[] h = new int[n];
-    int[] e = new int[m];
-    int[] ne = new int[m];
+    int[] h = new int[N];
+    int[] e = new int[M];
+    int[] ne = new int[M];
+    int[] w = new int[M];
     int idx;
 
-    boolean[] vis = new boolean[n];
+    boolean[] vis = new boolean[N];
 
     public Graph() {
         idx = 0;
@@ -23,6 +24,13 @@ public class Graph {
 
     void add(int a, int b) {
         e[idx] = b;
+        ne[idx] = h[a];
+        h[a] = idx++;
+    }
+
+    void add(int a, int b, int c) {
+        e[idx] = b;
+        w[idx] = c;
         ne[idx] = h[a];
         h[a] = idx++;
     }
@@ -38,7 +46,7 @@ public class Graph {
     }
 
     void bfs(int u) {
-        int[] dist = new int[n];
+        int[] dist = new int[N];
         Arrays.fill(dist, -1);
         Queue<Integer> queue = new ArrayDeque<>();
         queue.add(u);
