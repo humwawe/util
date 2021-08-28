@@ -68,4 +68,35 @@ public class Kmp {
         return ans;
     }
 
+
+    /**
+     * Z函数，扩展kmp
+     * z(aaaaa) = [0,4,3,2,1]
+     * z(aaabaab) = [0,2,1,0,2,1,0]
+     * z(abacaba) = [0,0,1,0,3,0,1]
+     *
+     * @param s 下标从0开始
+     * @return z[i] 表示 s[0] 和 s[i] 开头的最长公共前缀（lcp）长度，z[0]=0
+     */
+    int[] zFunction(String s) {
+        int n = s.length();
+        int[] z = new int[n];
+        for (int i = 1, l = 0, r = 0; i < n; ++i) {
+            if (i <= r && z[i - l] < r - i + 1) {
+                z[i] = z[i - l];
+            } else {
+                z[i] = Math.max(0, r - i + 1);
+                while (i + z[i] < n && s.charAt(z[i]) == s.charAt(i + z[i])) {
+                    ++z[i];
+                }
+            }
+            if (i + z[i] - 1 > r) {
+                l = i;
+                r = i + z[i] - 1;
+            }
+        }
+        return z;
+    }
+
+
 }
