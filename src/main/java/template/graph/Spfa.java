@@ -2,7 +2,6 @@ package template.graph;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
@@ -66,14 +65,14 @@ public class Spfa {
 
     // 是否存在负环回路(总共n个点)
     boolean spfaHasCircle(int n) {
-        // 保证负环能可达（只放1，从1开始可能到不了负环）
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+        // 保证负环能可达（只放1，从1开始可能到不了负环，图不联通）
+        Queue<Integer> queue = new ArrayDeque<>();
         for (int i = 1; i <= n; i++) {
             vis[i] = true;
-            priorityQueue.add(i);
+            queue.add(i);
         }
-        while (!priorityQueue.isEmpty()) {
-            int t = priorityQueue.poll();
+        while (!queue.isEmpty()) {
+            int t = queue.poll();
             vis[t] = false;
             for (int i = h[t]; i != -1; i = ne[i]) {
                 int j = e[i];
@@ -84,7 +83,7 @@ public class Spfa {
                         return true;
                     }
                     if (!vis[j]) {
-                        priorityQueue.add(j);
+                        queue.add(j);
                         vis[j] = true;
                     }
                 }
