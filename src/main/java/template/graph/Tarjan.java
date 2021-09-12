@@ -50,49 +50,56 @@ public class Tarjan {
         }
     }
 
-    int bridgeCnt = 0;
-    boolean[] cut = new boolean[N];
-    //删除一个点后增加的连通块
-    int[] addBlock = new int[N];
+
     boolean[] bridge = new boolean[M];
 
-    // 无向图的桥和割点
-    void tarjan(int u, int prev) {
+    // 无向图的桥
+    void tarjanBridge(int u, int inEdge) {
+        dfn[u] = low[u] = ++timestamp;
+        for (int i = h[u]; i != -1; i = ne[i]) {
+            int j = e[i];
+            // 搜索树边
+            if (dfn[j] == 0) {
+                tarjanBridge(j, i);
+                low[u] = Math.min(low[u], low[j]);
+                // 桥
+                if (low[j] > dfn[u]) {
+                    bridge[i] = true;
+                    bridge[i ^ 1] = true;
+                }
+            } else if (i != (inEdge ^ 1)) {
+                low[u] = Math.min(low[u], dfn[j]);
+            }
+        }
+    }
+
+    boolean[] cut = new boolean[N];
+    int root;
+
+    // 无向图的割点
+    void tarjanCut(int u) {
         dfn[u] = low[u] = ++timestamp;
         int son = 0;
         for (int i = h[u]; i != -1; i = ne[i]) {
             int j = e[i];
-            if (j == prev) {
-                continue;
-            }
             if (dfn[j] == 0) {
-                son++;
-                tarjan(j, u);
+                tarjanCut(j);
                 low[u] = Math.min(low[u], low[j]);
-                // 桥
-                if (low[j] > dfn[u]) {
-                    bridgeCnt++;
-                    bridge[i] = true;
-                    bridge[i ^ 1] = true;
+                if (low[j] >= dfn[u]) {
+                    son++;
+                    if (u == root || son > 1) {
+                        cut[u] = true;
+                    }
                 }
-                // 割点
-                // 非根节点
-                if (u != prev && low[j] >= dfn[u]) {
-                    cut[u] = true;
-                    addBlock[u]++;
-                }
-
-            } else {
+            }
+            // 割点判断法则为小于等于号，因此可以不用考虑父节点和重边的问题
+            // 像桥那样考虑记录进入每个节点的边的编号（inEdge）也没问题
+            //  else if (i != (inEdge ^ 1))
+            else {
                 low[u] = Math.min(low[u], dfn[j]);
             }
         }
-        // 根节点，根据遍历树的儿子节点判断
-        if (u == prev && son > 1) {
-            cut[u] = true;
-        }
-        if (u == prev) {
-            addBlock[u] = son - 1;
-        }
     }
+
 
 }
