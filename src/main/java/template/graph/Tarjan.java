@@ -87,7 +87,7 @@ public class Tarjan {
                 low[u] = Math.min(low[u], low[j]);
                 if (low[j] >= dfn[u]) {
                     son++;
-                    if (u == root || son > 1) {
+                    if (u != root || son > 1) {
                         cut[u] = true;
                     }
                 }
