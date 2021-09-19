@@ -84,30 +84,34 @@ public class Permutations {
         }
     }
 
-    // nums的下一个排列，len表示nums的长度
-    public void nextPermutation(int[] nums, int len) {
-        int i = len - 2;
-        while (i >= 0 && nums[i] >= nums[i + 1]) {
-            i--;
-        }
-        if (i >= 0) {
-            for (int j = len - 1; j > i; j--) {
-                if (nums[j] > nums[i]) {
-                    int temp = nums[j];
-                    nums[j] = nums[i];
-                    nums[i] = temp;
-                    break;
+
+    public boolean nextPermutation(int[] s) {
+        int n = s.length;
+        for (int i = n - 2; i >= 0; i--) {
+            if (s[i] < s[i + 1]) {
+                reverse(s, i + 1, n - 1);
+                // 一直到最大的一个序列
+                for (int j = i + 1; ; j++) {
+                    if (s[j] > s[i]) {
+                        int tmp = s[j];
+                        s[j] = s[i];
+                        s[i] = tmp;
+                        return true;
+                    }
                 }
             }
         }
-        int left = i + 1;
-        int right = len - 1;
-        while (left < right) {
-            int temp = nums[left];
-            nums[left] = nums[right];
-            nums[right] = temp;
-            left++;
-            right--;
+        return false;
+    }
+
+    public void reverse(int[] data, int l, int r) {
+        while (l < r) {
+            int tmp = data[l];
+            data[l] = data[r];
+            data[r] = tmp;
+            l++;
+            r--;
         }
     }
+
 }
