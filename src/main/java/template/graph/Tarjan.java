@@ -1,6 +1,7 @@
 package template.graph;
 
 
+import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -12,13 +13,14 @@ public class Tarjan {
     int[] dfn = new int[N];
     int[] low = new int[N];
 
-    int timestamp = 0;
+    int timestamp;
     Stack<Integer> stack = new Stack<>();
     boolean[] inStack = new boolean[N];
     int[] h = new int[N];
     int[] e = new int[M];
     int[] ne = new int[M];
     int idx;
+
     // 记录强连通个数
     int sccCnt = 0;
     // 某个点属于哪个强连通分量
@@ -53,7 +55,7 @@ public class Tarjan {
 
     boolean[] bridge = new boolean[M];
 
-    // 无向图的桥
+    // 无向图的桥 tarjanBridge(root, -1)
     void tarjanBridge(int u, int inEdge) {
         dfn[u] = low[u] = ++timestamp;
         for (int i = h[u]; i != -1; i = ne[i]) {
@@ -72,6 +74,62 @@ public class Tarjan {
             }
         }
     }
+
+    // 无向图边双联通分量（e-DCC）
+    // 根据桥来划分
+    // 某个x所属双联通编号
+    int[] eDccC = new int[N];
+    int eDccNo;
+
+    // 对每个边双联通分量编号
+    void tarjanBridgeEDccNo(int n) {
+        // 对所有的点(1-n)
+        for (int i = 1; i <= n; i++) {
+            if (eDccC[i] == 0) {
+                // 编号
+                ++eDccNo;
+                tarjanBridgeEDccDfs(i);
+            }
+        }
+    }
+
+    void tarjanBridgeEDccDfs(int u) {
+        eDccC[u] = eDccNo;
+        for (int i = h[u]; i != -1; i = ne[i]) {
+            int j = e[i];
+            if (eDccC[j] != 0 || bridge[i]) {
+                continue;
+            }
+            tarjanBridgeEDccDfs(j);
+        }
+    }
+
+    // e-DCC缩点
+    int[] eDccH = new int[N];
+    int[] eDccE = new int[M];
+    int[] eDccNe = new int[M];
+    int eDccIdx;
+
+    void tarjanBridgeEDccReBuild() {
+        Arrays.fill(eDccH, -1);
+        eDccIdx = 0;
+        // 对每条边
+        for (int i = 0; i < idx; i++) {
+            int x = e[i];
+            int y = e[i ^ 1];
+            if (eDccC[x] == eDccC[y]) {
+                continue;
+            }
+            addEDcc(eDccC[x], eDccC[y]);
+        }
+    }
+
+    void addEDcc(int a, int b) {
+        eDccE[eDccIdx] = b;
+        eDccNe[eDccIdx] = eDccH[a];
+        eDccH[a] = eDccIdx++;
+    }
+
 
     boolean[] cut = new boolean[N];
     int root;
