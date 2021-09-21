@@ -1,7 +1,9 @@
 package template.graph;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -77,7 +79,7 @@ public class Tarjan {
 
     // 无向图边双联通分量（e-DCC）
     // 根据桥来划分
-    // 某个x所属双联通编号
+    // 某个x所属边双联通编号
     int[] eDccC = new int[N];
     int eDccNo;
 
@@ -159,5 +161,95 @@ public class Tarjan {
         }
     }
 
+    // 无向图点双联通分量（v-DCC）
+    // 某个编号的点双联通分量中包含的点
+    List<Integer>[] vDccs = new List[N];
+    // 从1开始编号
+    int vDccNo;
+    // 模拟栈
+    int[] vDccStack = new int[N];
+    int top;
+
+    // 求割点的同时，求每个点双联通分量，保存在vDccCs中
+    // 若不需要求割点，则可以注释掉求cut部分
+    void tarjanCutVDccNo(int u) {
+        dfn[u] = low[u] = ++timestamp;
+        vDccStack[++top] = u;
+        // 孤立点
+        if (u == root && h[u] == -1) {
+            vDccNo++;
+            vDccs[vDccNo] = new ArrayList<>();
+            vDccs[vDccNo].add(u);
+            return;
+        }
+        int son = 0;
+        for (int i = h[u]; i != -1; i = ne[i]) {
+            int j = e[i];
+            if (dfn[j] == 0) {
+                tarjanCutVDccNo(j);
+                low[u] = Math.min(low[u], low[j]);
+                if (low[j] >= dfn[u]) {
+                    son++;
+                    if (u != root || son > 1) {
+                        cut[u] = true;
+                    }
+                    vDccNo++;
+                    vDccs[vDccNo] = new ArrayList<>();
+                    vDccs[vDccNo].add(u);
+                    do {
+                        vDccs[vDccNo].add(vDccStack[top]);
+                        top--;
+                    } while (vDccStack[top + 1] != j);
+                }
+            } else {
+                low[u] = Math.min(low[u], dfn[j]);
+            }
+        }
+    }
+
+
+    // v-DCC缩点
+    // 把每个v-dcc和每个割点当做新图中的节点
+    int[] vDccH = new int[N];
+    int[] vDccE = new int[M];
+    int[] vDccNe = new int[M];
+    int vDccIdx;
+    // 某个x所属点双联通编号
+    int[] vDccC = new int[N];
+
+    void tarjanCutVDccReBuild(int n) {
+        Arrays.fill(vDccH, -1);
+        eDccIdx = 0;
+        // 从v-dcc编号的下一个开始
+        int num = vDccNo;
+        // 对所有的点(1-n)
+        int[] cutNewId = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            if (cut[i]) {
+                cutNewId[i] = ++num;
+            }
+        }
+        // 对每个v-dcc，在每个割点和包含它的v-dcc中连边
+        for (int i = 1; i <= vDccNo; i++) {
+            for (int j = 0; j < vDccs[i].size(); j++) {
+                int x = vDccs[i].get(j);
+                if (cut[x]) {
+                    addVDcc(i, cutNewId[i]);
+                    addVDcc(cutNewId[i], i);
+                }
+                // 除割点外，其他点仅属于1个v-dcc
+                else {
+                    vDccC[x] = i;
+                }
+            }
+
+        }
+    }
+
+    void addVDcc(int a, int b) {
+        vDccE[vDccIdx] = b;
+        vDccNe[vDccIdx] = vDccH[a];
+        vDccH[a] = vDccIdx++;
+    }
 
 }
