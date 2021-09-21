@@ -115,8 +115,8 @@ public class Tarjan {
         eDccIdx = 0;
         // 对每条边
         for (int i = 0; i < idx; i++) {
-            int x = e[i];
-            int y = e[i ^ 1];
+            int x = e[i ^ 1];
+            int y = e[i];
             if (eDccC[x] == eDccC[y]) {
                 continue;
             }
