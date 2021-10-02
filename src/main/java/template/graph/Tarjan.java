@@ -4,7 +4,6 @@ package template.graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * @author hum
@@ -16,42 +15,76 @@ public class Tarjan {
     int[] low = new int[N];
 
     int timestamp;
-    Stack<Integer> stack = new Stack<>();
-    boolean[] inStack = new boolean[N];
+
     int[] h = new int[N];
     int[] e = new int[M];
     int[] ne = new int[M];
-    int idx;
+    int idx, top;
+    int n;
 
-    // 记录强连通个数
+    // 强连通个数
     int sccCnt = 0;
     // 某个点属于哪个强连通分量
-    int[] id = new int[N];
+    int[] sccC = new int[N];
+    // 每个联通分量的点
+    List<Integer>[] sccList = new List[N];
+    int[] sccStack = new int[N];
+    boolean[] inSccStack = new boolean[N];
 
     // 有向图的强联通分量
-    void tarjan(int u) {
+    void tarjanScc(int u) {
         dfn[u] = low[u] = ++timestamp;
-        stack.push(u);
-        inStack[u] = true;
+        sccStack[++top] = u;
+        inSccStack[u] = true;
         for (int i = h[u]; i != -1; i = ne[i]) {
             int j = e[i];
             if (dfn[j] == 0) {
-                tarjan(j);
+                tarjanScc(j);
                 low[u] = Math.min(low[u], low[j]);
-            } else if (inStack[j]) {
+            } else if (inSccStack[j]) {
                 low[u] = Math.min(low[u], dfn[j]);
             }
         }
         // 联通分量编号递减即是拓扑序
         if (dfn[u] == low[u]) {
-            int y;
             ++sccCnt;
+            sccList[sccCnt] = new ArrayList<>();
+            int y;
             do {
-                y = stack.pop();
-                inStack[y] = false;
-                id[y] = sccCnt;
+                y = sccStack[top--];
+                inSccStack[y] = false;
+                sccC[y] = sccCnt;
+                sccList[sccCnt].add(y);
             } while (y != u);
         }
+    }
+
+    // SCC缩点
+    int[] sccH = new int[N];
+    int[] sccE = new int[M];
+    int[] sccNe = new int[M];
+    int sccIdx;
+
+    void tarjanSccReBuild() {
+        Arrays.fill(sccH, -1);
+        sccIdx = 0;
+        // 对每条边
+        for (int u = 1; u <= n; u++) {
+            for (int i = h[u]; i != -1; i = ne[i]) {
+                int j = e[i];
+                if (sccC[u] == sccC[j]) {
+                    continue;
+                }
+                // u->j
+                addScc(sccC[u], sccC[j]);
+            }
+        }
+    }
+
+    void addScc(int a, int b) {
+        sccE[sccIdx] = b;
+        sccNe[sccIdx] = sccH[a];
+        sccH[a] = sccIdx++;
     }
 
 
@@ -168,7 +201,6 @@ public class Tarjan {
     int vDccNo;
     // 模拟栈
     int[] vDccStack = new int[N];
-    int top;
 
     // 求割点的同时，求每个点双联通分量，保存在vDccCs中
     // 若不需要求割点，则可以注释掉求cut部分
