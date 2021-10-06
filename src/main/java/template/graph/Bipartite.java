@@ -61,10 +61,13 @@ public class Bipartite {
     int match() {
         int res = 0;
         for (int i = 1; i <= n1; i++) {
-            vis = new boolean[N];
+            // 多重匹配可以拆点或者网络流，特别的多对一的情况（假设左为多）可以对左边跑kl次find，若未找到提前break剪枝
+            // for (int j = 0; j < kl; j++)
+            Arrays.fill(vis, false);
             if (find(i)) {
                 res++;
             }
+            // else break;
         }
         return res;
     }
@@ -77,6 +80,161 @@ public class Bipartite {
                 if (match[j] == 0 || find(match[j])) {
                     match[j] = x;
                     return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // 边权
+    int[][] w = new int[N][N];
+    // 左右部点的顶标（顶点标记值）
+    int[] la = new int[N];
+    int[] lb = new int[N];
+    int[] upd = new int[N];
+    // 访问标记：是否在交错树中
+    boolean[] va = new boolean[N];
+    boolean[] vb = new boolean[N];
+    int inf = 0x3f3f3f3f;
+
+    // km在稠密图上效果很好，求带权最大匹配需满足是完备匹配的情况
+    // O(n^2*m)
+    int km() {
+        for (int i = 1; i <= n; i++) {
+            la[i] = -inf;
+            lb[i] = 0;
+            for (int j = 1; j <= n; j++) {
+                la[i] = Math.max(la[i], w[i][j]);
+            }
+        }
+        for (int i = 1; i <= n; i++) {
+            // 直到左部顶点找到匹配
+            while (true) {
+                Arrays.fill(va, false);
+                Arrays.fill(vb, false);
+                for (int j = 1; j <= n; j++) {
+                    upd[j] = inf;
+                }
+                if (dfs(i)) {
+                    break;
+                }
+                int delta = inf;
+                for (int j = 1; j <= n; j++) {
+                    if (!vb[j]) {
+                        delta = Math.min(delta, upd[j]);
+                    }
+                }
+                // 修改顶标
+                for (int j = 1; j <= n; j++) {
+                    if (va[j]) {
+                        la[j] -= delta;
+                    }
+                    if (vb[j]) {
+                        lb[j] += delta;
+                    }
+                }
+            }
+        }
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            res += w[match[i]][i];
+        }
+        return res;
+    }
+
+    boolean dfs(int x) {
+        // 在交错树中
+        va[x] = true;
+        for (int y = 1; y <= n; y++) {
+            if (!vb[y]) {
+                // 相等子图
+                if (la[x] + lb[y] - w[x][y] == 0) {
+                    // 在交错树中
+                    vb[y] = true;
+                    if (match[y] == 0 || dfs(match[y])) {
+                        match[y] = x;
+                        return true;
+                    }
+                } else {
+                    upd[y] = Math.min(upd[y], la[x] + lb[y] - w[x][y]);
+                }
+            }
+        }
+        return false;
+    }
+
+    // 右部点在交错树中的上一个右部点
+    int[] last = new int[N];
+
+    // 优化的km O(N^3)
+    // 每次dfs失败后，下一次从相等子图刚刚加入的边（也就是那条delta最小的边）出发，继续搜索，而不是还从交错树的根开始
+    int km2() {
+        for (int i = 1; i <= n; i++) {
+            la[i] = -inf;
+            lb[i] = 0;
+            for (int j = 1; j <= n; j++) {
+                la[i] = Math.max(la[i], w[i][j]);
+            }
+        }
+        for (int i = 1; i <= n; i++) {
+            Arrays.fill(va, false);
+            Arrays.fill(vb, false);
+            Arrays.fill(upd, inf);
+            int start = 0;
+            match[0] = i;
+            while (match[start] != 0) {
+                if (dfs2(match[start], start)) {
+                    break;
+                }
+                int delta = inf;
+                for (int j = 1; j <= n; j++) {
+                    if (!vb[j] && delta > upd[j]) {
+                        delta = upd[j];
+                        start = j;
+                    }
+                }
+                // 修改顶标
+                for (int j = 1; j <= n; j++) {
+                    if (va[j]) {
+                        la[j] -= delta;
+                    }
+                    if (vb[j]) {
+                        lb[j] += delta;
+                    } else {
+                        upd[j] -= delta;
+                    }
+                }
+                vb[start] = true;
+            }
+            while (start != 0) {
+                match[start] = match[last[start]];
+                start = last[start];
+            }
+        }
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            res += w[match[i]][i];
+        }
+        return res;
+    }
+
+    boolean dfs2(int x, int fa) {
+        va[x] = true;
+        for (int y = 1; y <= n; y++) {
+            if (!vb[y]) {
+                // 相等子图
+                if (la[x] + lb[y] - w[x][y] == 0) {
+                    vb[y] = true;
+                    last[y] = fa;
+                    if (match[y] == 0 || dfs2(match[y], y)) {
+                        match[y] = x;
+                        return true;
+                    }
+                } else {
+                    if (upd[y] > la[x] + lb[y] - w[x][y]) {
+                        upd[y] = la[x] + lb[y] - w[x][y];
+                        last[y] = fa;
+                    }
                 }
             }
         }
