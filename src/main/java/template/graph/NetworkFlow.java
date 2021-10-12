@@ -80,7 +80,7 @@ public class NetworkFlow {
     int[] now = new int[M];
 
     int dinic() {
-        int flow = 0;
+        int flow;
         while (bfsDinic()) {
             while ((flow = dfsDinic(s, inf)) != 0) {
                 maxflow += flow;
