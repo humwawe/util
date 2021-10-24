@@ -62,6 +62,7 @@ public class NetworkFlow {
         return false;
     }
 
+
     // 更新增广路及其反向边的剩余容量
     private void updateEK() {
         int x = t;
@@ -72,6 +73,45 @@ public class NetworkFlow {
             x = e[i ^ 1];
         }
         maxflow += incf[t];
+        // 如果求费用流，需要累加到答案上
+        // res = dist[t] * incf[t];
+    }
+
+    // 费用流问题，在EK算法基础上改变bfs求增广路，而使用spfa找增广，费用为边权（边权互为正负），在残留网络上求最短路
+    int[] dist = new int[N];
+    // 费用
+    int[] cost = new int[M];
+
+    private boolean spfaEK() {
+        Arrays.fill(vis, false);
+        Arrays.fill(dist, -inf);
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(s);
+        vis[s] = true;
+        dist[s] = 0;
+        incf[s] = inf;
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            vis[u] = false;
+            for (int i = h[u]; i != -1; i = ne[i]) {
+                // 剩余容量为0的话，说明不在残留网络中，不遍历
+                if (w[i] > 0) {
+                    int j = e[i];
+                    if (dist[j] < dist[u] + cost[i]) {
+                        dist[j] = dist[u] + cost[i];
+                        incf[j] = Math.min(incf[u], w[i]);
+                        // 记录前驱，可以找到最长路的实际方案
+                        pre[j] = i;
+                        if (!vis[j]) {
+                            queue.add(j);
+                            vis[j] = true;
+                        }
+                    }
+                }
+            }
+        }
+        // 汇点是否可达，不可达表示已求出最大流
+        return dist[t] != -inf;
     }
 
     // Dinic算法 O(n^2m)，一般较快，1e4到1e5的规模
