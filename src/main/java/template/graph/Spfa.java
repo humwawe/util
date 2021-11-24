@@ -65,6 +65,7 @@ public class Spfa {
 
     // 是否存在负环回路(总共n个点)
     boolean spfaHasCircle(int n) {
+        // int tot = 0;
         // 保证负环能可达（只放1，从1开始可能到不了负环，图不联通）
         Queue<Integer> queue = new ArrayDeque<>();
         for (int i = 1; i <= n; i++) {
@@ -72,13 +73,18 @@ public class Spfa {
             queue.add(i);
         }
         while (!queue.isEmpty()) {
-            int t = queue.poll();
-            vis[t] = false;
-            for (int i = h[t]; i != -1; i = ne[i]) {
+            int u = queue.poll();
+            vis[u] = false;
+            for (int i = h[u]; i != -1; i = ne[i]) {
                 int j = e[i];
-                if (dist[j] > dist[t] + w[i]) {
-                    dist[j] = dist[t] + w[i];
-                    cnt[j] = cnt[t] + 1;
+                if (dist[j] > dist[u] + w[i]) {
+                    dist[j] = dist[u] + w[i];
+                    cnt[j] = cnt[u] + 1;
+                    // 有时候spfa会超时，考虑限制队列大小，如果超过一定次数即有负环
+                    // tot++;
+                    // if (tot >= 1e5) {
+                    // return true;
+                    // }
                     if (cnt[j] >= n) {
                         return true;
                     }
@@ -89,8 +95,31 @@ public class Spfa {
                 }
             }
         }
-
         return false;
     }
 
+    // dfs判断负环，有时候比bfs的方法要快
+    boolean dfsSpfaHasCircle(int n) {
+        for (int i = 1; i <= n; i++) {
+            if (dfs(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean dfs(int u) {
+        vis[u] = true;
+        for (int i = h[u]; i != -1; i = ne[i]) {
+            int j = e[i];
+            if (dist[j] > dist[u] + w[i]) {
+                dist[j] = dist[u] + w[i];
+                if (vis[j] || dfs(j)) {
+                    return true;
+                }
+            }
+        }
+        vis[u] = false;
+        return false;
+    }
 }
