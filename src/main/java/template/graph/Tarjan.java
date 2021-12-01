@@ -266,8 +266,8 @@ public class Tarjan {
             for (int j = 0; j < vDccs[i].size(); j++) {
                 int x = vDccs[i].get(j);
                 if (cut[x]) {
-                    addVDcc(i, cutNewId[i]);
-                    addVDcc(cutNewId[i], i);
+                    addVDcc(i, cutNewId[x]);
+                    addVDcc(cutNewId[x], i);
                 }
                 // 除割点外，其他点仅属于1个v-dcc
                 else {
