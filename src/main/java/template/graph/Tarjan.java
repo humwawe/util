@@ -248,12 +248,14 @@ public class Tarjan {
     int vDccIdx;
     // 某个x所属点双联通编号
     int[] vDccC = new int[N];
+    // 记录最后的总点数，联通块个数+割点个数
+    int num;
 
     void tarjanCutVDccReBuild(int n) {
         Arrays.fill(vDccH, -1);
-        eDccIdx = 0;
+        vDccIdx = 0;
         // 从v-dcc编号的下一个开始
-        int num = vDccNo;
+        num = vDccNo;
         // 对所有的点(1-n)
         int[] cutNewId = new int[n + 1];
         for (int i = 1; i <= n; i++) {
