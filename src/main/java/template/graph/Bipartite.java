@@ -84,6 +84,17 @@ public class Bipartite {
                     match[j] = x;
                     return true;
                 }
+                // 右部多重的话可以开二维数组，考虑记录匹配次数，超过后依次尝试增广路
+                //  if (cnt[j] < v[j]) {
+                //      match[j][++cnt[j]] = x;
+                //      return true;
+                //  }
+                //  for (int k = 1; k <= v[j]; k++) {
+                //      if (find(match[j][k])) {
+                //          match[j][k] = x;
+                //          return true;
+                //      }
+                //  }
             }
         }
         return false;
