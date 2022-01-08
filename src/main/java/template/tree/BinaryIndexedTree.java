@@ -43,21 +43,22 @@ public class BinaryIndexedTree {
         }
     }
 
-    // 区间修改，区间查询，在t的基础构建t2
-    int[] t2 = new int[N];
+    // 区间修改，区间查询，构建一个d1差分数组，在d1的基础构建d2 = d1[i]*i
+    int[] d1 = new int[N];
+    int[] d2 = new int[N];
 
     // 对第一个数组数组add(c)
     // 第二个维护x*c的树状数组
     void add2(int x, int c) {
         for (int i = x; i <= n; i += lowbit(i)) {
-            t2[i] += x * c;
+            d2[i] += x * c;
         }
     }
 
     int sum2(int x) {
         int res = 0;
         for (int i = x; i > 0; i -= lowbit(i)) {
-            res += t2[i];
+            res += d2[i];
         }
         return res;
     }
@@ -65,5 +66,35 @@ public class BinaryIndexedTree {
     // sum为第一个树状数组的值 sum2为第二个数组数组的值
     int ask(int x) {
         return (x + 1) * sum(x) - sum2(x);
+    }
+
+    // 二维操作
+    int[][] maz;
+
+    // 二维区间修改，单点查询，构建差分数组，初始化的时候使用a[i][j]-(a[i-1][j]+a[i][j-1]-a[i-1][j-1])的差
+    // 修改四个角
+    void rangeAdd(int xa, int ya, int xb, int yb, int z) {
+        add(xa, ya, z);
+        add(xa, yb + 1, -z);
+        add(xb + 1, ya, -z);
+        add(xb + 1, yb + 1, z);
+    }
+
+    void add(int x, int y, int z) {
+        for (int i = x; i <= n; i += lowbit(i)) {
+            for (int j = y; j <= n; j += lowbit(j)) {
+                maz[i][j] += z;
+            }
+        }
+    }
+
+    int sum(int x, int y) {
+        int res = 0;
+        for (int i = x; i > 0; i -= lowbit(i)) {
+            for (int j = y; j > 0; j -= lowbit(j)) {
+                res += maz[i][j];
+            }
+        }
+        return res;
     }
 }
