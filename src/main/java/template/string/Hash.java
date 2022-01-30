@@ -31,6 +31,7 @@ public class Hash {
         return modular(h[r] - mul(h[l - 1], p[r - l + 1]));
     }
 
+    // 仅对mod = (1L << 61) - 1 有效，hash重复率较低
     private long mul(long a, long b) {
         long al = a & (1L << 31) - 1, ah = a >>> 31;
         long bl = b & (1L << 31) - 1, bh = b >>> 31;

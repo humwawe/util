@@ -37,6 +37,27 @@ public class QuickMath {
         return ans;
     }
 
+
+    // 求a*b mod p 可以处理负数情况
+    long qm2(long a, long b, long p) {
+        boolean positive = true;
+        if (a < 0) {
+            a = -a;
+            positive = false;
+        }
+        if (b < 0) {
+            b = -b;
+            positive = !positive;
+        }
+
+        long ans = qm(a, b, p);
+        if (!positive) {
+            return (-ans + p) % p;
+        }
+
+        return ans;
+    }
+
     // baby step giant step 算法求 a^x mod p = b 的x最小非负整数解
     // 令 x=i*t-j 其中t=sqrt(p) 0<=j<=t-1，原式等价于 (a^t)^i mod p = b*a^j
     // 记录 b*a^j mod p 放入hash表
