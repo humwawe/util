@@ -6,7 +6,6 @@ package template.tree;
 public class BinaryIndexedTree {
     int N = 105;
     int[] t = new int[N];
-    int n;
 
     // n&(~n+1) ~n=-1-n
     // Integer.lowestOneBit(x)
@@ -16,7 +15,7 @@ public class BinaryIndexedTree {
 
     // 位置从1开始
     void add(int x, int c) {
-        for (int i = x; i <= n; i += lowbit(i)) {
+        for (int i = x; i < N; i += lowbit(i)) {
             t[i] += c;
         }
     }
@@ -36,8 +35,8 @@ public class BinaryIndexedTree {
     // 对每个元素使用add方法初始化，复杂度为O(Nlog(N))
     // 线性初始化，记录前缀和构造
     void init(int[] a) {
-        int[] sum = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
+        int[] sum = new int[N];
+        for (int i = 1; i < N; i++) {
             sum[i] = sum[i - 1] + a[i];
             t[i] = sum[i] - sum[i - lowbit(i)];
         }
@@ -50,7 +49,7 @@ public class BinaryIndexedTree {
     // 对第一个数组数组add(c)
     // 第二个维护x*c的树状数组
     void add2(int x, int c) {
-        for (int i = x; i <= n; i += lowbit(i)) {
+        for (int i = x; i < N; i += lowbit(i)) {
             d2[i] += x * c;
         }
     }
@@ -81,8 +80,8 @@ public class BinaryIndexedTree {
     }
 
     void add(int x, int y, int z) {
-        for (int i = x; i <= n; i += lowbit(i)) {
-            for (int j = y; j <= n; j += lowbit(j)) {
+        for (int i = x; i < N; i += lowbit(i)) {
+            for (int j = y; j < N; j += lowbit(j)) {
                 maz[i][j] += z;
             }
         }
