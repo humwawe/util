@@ -114,4 +114,51 @@ public class Permutations {
         }
     }
 
+    public boolean nextPermutationList(List<Node> list) {
+        int n = list.size();
+        for (int i = n - 2; i >= 0; i--) {
+            if (list.get(i).compareTo(list.get(i + 1)) < 0) {
+                reverseList(list, i + 1, n - 1);
+                for (int j = i + 1; ; j++) {
+                    if (list.get(j).compareTo(list.get(i)) > 0) {
+                        Node tmp = list.get(j);
+                        list.set(j, list.get(i));
+                        list.set(i, tmp);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void reverseList(List<Node> data, int l, int r) {
+        while (l < r) {
+            Node tmp = data.get(l);
+            data.set(l, data.get(r));
+            data.set(r, tmp);
+            l++;
+            r--;
+        }
+    }
+
+    class Node implements Comparable<Node> {
+        int x;
+        int y;
+
+        public Node(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            if (x == o.x) {
+                return y - o.y;
+            } else {
+                return x - o.x;
+            }
+        }
+    }
+
 }
