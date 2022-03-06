@@ -9,29 +9,29 @@ package template.math;
  */
 public class Mobius {
 
-    // 埃氏筛法求mobius函数
-    int[] mobius(int n) {
-        int[] mobius = new int[n];
-        int[] pri = new int[n];
-        boolean[] vis = new boolean[n];
-        int cnt = 0;
-        mobius[1] = 1;
-        for (int i = 2; i < n; ++i) {
-            if (!vis[i]) {
-                pri[cnt++] = i;
-                mobius[i] = -1;
-            }
-            for (int j = 0; pri[j] * i < n; ++j) {
-                int t = pri[j] * i;
-                vis[t] = true;
-                if (i % pri[j] == 0) {
-                    mobius[t] = 0;
-                    break;
-                }
-                mobius[t] = mobius[i] * -1;
-            }
+  // 埃氏筛法求mobius函数
+  int[] mobius(int n) {
+    int[] mobius = new int[n];
+    int[] pri = new int[n];
+    boolean[] vis = new boolean[n];
+    int cnt = 0;
+    mobius[1] = 1;
+    for (int i = 2; i < n; ++i) {
+      if (!vis[i]) {
+        pri[cnt++] = i;
+        mobius[i] = -1;
+      }
+      for (int j = 0; pri[j] * i < n; ++j) {
+        int t = pri[j] * i;
+        vis[t] = true;
+        if (i % pri[j] == 0) {
+          mobius[t] = 0;
+          break;
         }
-        return mobius;
+        mobius[t] = mobius[i] * -1;
+      }
     }
+    return mobius;
+  }
 
 }
