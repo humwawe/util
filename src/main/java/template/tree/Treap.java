@@ -114,10 +114,11 @@ public class Treap {
   }
 
   // 返回rank，如果存在多个，则返回第一个位置
-  // 使用时需要-1，因为哨兵占一个位置，如果查找的这个数不存在，则返回插入后的rank值（不用减1）
+  // 使用时需要-1，因为哨兵占一个位置
   int getRankByKey(int p, int key) {
     if (p == 0) {
-      return 0;
+      // 保证没有该元素，也可以返回插入位置
+      return 1;
     }
     if (tr[p].key == key) {
       return tr[tr[p].l].size + 1;
@@ -233,6 +234,7 @@ public class Treap {
       cnt = 0;
     }
   }
+
 
 }
 
