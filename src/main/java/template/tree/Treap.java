@@ -44,6 +44,7 @@ public class Treap {
     return idx;
   }
 
+  // insert(root, key, 0)
   void insert(int p, int key, int pre) {
     if (p == 0) {
       int cur = createNode(key);
@@ -74,6 +75,7 @@ public class Treap {
     pushUp(p);
   }
 
+  // remove(root, key, 0)
   void remove(int p, int key, int pre) {
     if (p == 0) {
       return;
@@ -111,6 +113,8 @@ public class Treap {
     pushUp(p);
   }
 
+  // 返回rank，如果存在多个，则返回第一个位置
+  // 使用时需要-1，因为哨兵占一个位置，如果查找的这个数不存在，则返回插入后的rank值（不用减1）
   int getRankByKey(int p, int key) {
     if (p == 0) {
       return 0;
@@ -124,6 +128,7 @@ public class Treap {
     return tr[tr[p].l].size + tr[p].cnt + getRankByKey(tr[p].r, key);
   }
 
+  // rank 从2开始，表示第一
   int getKeyByRank(int p, int rank) {
     if (p == 0) {
       return inf;
