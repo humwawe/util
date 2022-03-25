@@ -10,7 +10,6 @@ public class SparseTable {
   int[] lg2 = new int[N];
   // dp[i][j] 保留i开始2^j个数中的最大值
   int[][] dp = new int[N][logn];
-  int n = 5;
 
   // 预处理log函数值
   void initPre() {
@@ -22,6 +21,7 @@ public class SparseTable {
 
   // a下标 [0,n)
   void init(int[] a) {
+    int n = a.length;
     for (int i = 0; i < n; i++) {
       dp[i][0] = a[i];
     }
@@ -36,7 +36,7 @@ public class SparseTable {
   // 查询区间[l,r] 从0开始
   int query(int l, int r) {
     if (l > r) {
-      return (int) inf;
+      return inf;
     }
     int k = lg2[r - l + 1];
     return Math.max(dp[l][k], dp[r - (1 << k) + 1][k]);
