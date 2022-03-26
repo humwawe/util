@@ -65,4 +65,38 @@ public class Divisor {
     }
     return map;
   }
+
+
+  int N = (int) (1e5 + 5);
+  // 如果需要对很多数分解，可以考虑线性筛预处理出每个数的最小质因子，随后直接相除，不需要试余数判断
+  // 存每个数的最小质因子
+  int[] p = new int[N];
+
+  void initP() {
+    for (int i = 0; i < N; i++) {
+      p[i] = i;
+    }
+    for (int i = 2; i < N; i++) {
+      if (p[i] == i) {
+        for (int j = i + i; j < N; j += i) {
+          if (p[j] == j) {
+            p[j] = i;
+          }
+        }
+      }
+    }
+  }
+
+  Map<Integer, Integer> divideWithP(int x) {
+    Map<Integer, Integer> map = new HashMap<>();
+    while (x > 1) {
+      int y = p[x];
+      int z = 0;
+      for (; x % y == 0; x /= y) {
+        ++z;
+      }
+      map.put(y, z);
+    }
+    return map;
+  }
 }
