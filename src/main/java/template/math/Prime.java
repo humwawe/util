@@ -71,6 +71,7 @@ public class Prime {
   }
 
   //线性筛法，每个合数被最小的质因子筛掉
+  // sieve[i] == i 时 i 即为质数
   void getPrimes3(int n) {
     int[] primes = new int[n + 1];
     // sieve存每个数的最小质因子
