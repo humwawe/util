@@ -4,10 +4,21 @@ package template.tree;
  * @author hum
  */
 public class SegmentTree {
-  int N = 105;
-  Node[] tr = new Node[N * 4];
-  int n = 55;
-  int[] w = new int[n];
+  int N;
+  Node[] tr;
+  int[] w;
+
+  public SegmentTree(int n) {
+    w = new int[n];
+    this.N = n + 5;
+    tr = new Node[N * 4];
+  }
+
+  public SegmentTree(int[] w) {
+    this.w = w;
+    this.N = w.length + 5;
+    tr = new Node[N * 4];
+  }
 
   void pushUp(int u) {
     // 由子节点信息更新父节点
