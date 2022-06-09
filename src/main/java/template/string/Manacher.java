@@ -13,7 +13,9 @@ public class Manacher {
    * i:     0 1 2 3 4 5 6 7 8 9 10 11 12 13
    * ma[i]: $ # a # b # a # a # b  #  a  #
    * mp[i]: 1 1 2 1 4 1 2 7 2 1 4  1  2  1
-   * 遍历 2*len(str)+2 mp[i]-1 为从i向左右拓展的结果
+   * 遍历 区间[ 1, 2*len(str)+2 )
+   * mp[i]-1 为从i向左右拓展的结果，回文串的长度
+   * 当 i - (mp[i]-1) == 1 的时候，说明当前长度的串是一个前缀，同理 2*len(str)+2 - (mp[i]-1) - i == 1 是一个后缀
    */
   void manacher(char s[]) {
     int l = 0;
