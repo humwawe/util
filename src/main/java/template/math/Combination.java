@@ -93,11 +93,11 @@ public class Combination {
   }
 
   // 预处理 enumFAndIf 后求组合数
-  long c(int a, int b, int mod, int[][] fif) {
+  long c(int a, int b, int mod, long[][] fif) {
     if (b < 0 || b > a) {
       return 0;
     }
-    return (long) fif[0][a] * fif[1][b] % mod * fif[1][a - b] % mod;
+    return fif[0][a] * fif[1][b] % mod * fif[1][a - b] % mod;
   }
 
   // Lucas定理, 若p是质数
