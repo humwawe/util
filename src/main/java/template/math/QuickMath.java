@@ -23,6 +23,20 @@ public class QuickMath {
     return (int) res % p;
   }
 
+  // 求 m^k p p
+  long pow(long m, long k, long p) {
+    //		m %= p;
+    long ret = 1;
+    int x = 63 - Long.numberOfLeadingZeros(k);
+    for (; x >= 0; x--) {
+      ret = ret * ret % p;
+      if (k << 63 - x < 0) {
+        ret = ret * m % p;
+      }
+    }
+    return ret;
+  }
+
 
   // 求 a*b mod p
   long qm(long a, long b, long p) {

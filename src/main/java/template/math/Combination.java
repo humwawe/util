@@ -26,6 +26,19 @@ public class Combination {
     }
   }
 
+  int qmi(int m, int k, int p) {
+    long res = 1 % p, t = m;
+    while (k > 0) {
+      if ((k & 1) == 1) {
+        res = res * t % p;
+      }
+      t = t * t % p;
+      k >>= 1;
+    }
+    return (int) res % p;
+  }
+
+
   long[] fact = new long[N];
   long[] infact = new long[N];
 
@@ -41,6 +54,13 @@ public class Combination {
     }
   }
 
+  //预处理 fact 和 infact 后使用求组合数
+  long c(int a, int b) {
+    return fact[a] * infact[b] % mod * infact[a - b] % mod;
+  }
+
+  // 返回的ret[0] 为fact数组（f）
+  // 返回的ret[1] 为infact数组（invf）
   long[][] enumFAndIf(int n, int mod) {
     long[] f = new long[n + 1];
     long[] invf = new long[n + 1];
@@ -72,18 +92,13 @@ public class Combination {
     return p < 0 ? p + mod : p;
   }
 
-  int qmi(int m, int k, int p) {
-    long res = 1 % p, t = m;
-    while (k > 0) {
-      if ((k & 1) == 1) {
-        res = res * t % p;
-      }
-      t = t * t % p;
-      k >>= 1;
+  // 预处理 enumFAndIf 后求组合数
+  long c(int a, int b, int mod, int[][] fif) {
+    if (b < 0 || b > a) {
+      return 0;
     }
-    return (int) res % p;
+    return (long) fif[0][a] * fif[1][b] % mod * fif[1][a - b] % mod;
   }
-
 
   // Lucas定理, 若p是质数
   // c[a][b] % p = c[a % p][b % p] * c[a / p][b / p] % p
