@@ -9,7 +9,7 @@ package template.math;
  */
 public class Mobius {
 
-  // 埃氏筛法求mobius函数
+  // 线性筛求mobius函数
   int[] mobius(int n) {
     int[] mobius = new int[n];
     int[] pri = new int[n];
@@ -25,10 +25,9 @@ public class Mobius {
         int t = pri[j] * i;
         vis[t] = true;
         if (i % pri[j] == 0) {
-          mobius[t] = 0;
           break;
         }
-        mobius[t] = mobius[i] * -1;
+        mobius[t] = -mobius[i];
       }
     }
     return mobius;
