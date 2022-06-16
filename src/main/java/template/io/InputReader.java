@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 
 /**
  * @author Bibhuti Bhusan Panda (emailofpanda@yahoo.com)
@@ -24,14 +23,14 @@ public class InputReader {
 
   public int read() {
     if (numChars == -1) {
-      throw new InputMismatchException();
+      throw new UnknownError();
     }
     if (curChar >= numChars) {
       curChar = 0;
       try {
         numChars = stream.read(buf);
       } catch (IOException e) {
-        throw new InputMismatchException();
+        throw new UnknownError();
       }
       if (numChars <= 0) {
         return -1;
@@ -71,7 +70,7 @@ public class InputReader {
     int res = 0;
     do {
       if (c < '0' || c > '9') {
-        throw new InputMismatchException();
+        throw new UnknownError();
       }
       res *= 10;
       res += c - '0';
@@ -93,7 +92,7 @@ public class InputReader {
     long res = 0;
     do {
       if (c < '0' || c > '9') {
-        throw new InputMismatchException();
+        throw new UnknownError();
       }
       res *= 10;
       res += c - '0';
@@ -160,7 +159,7 @@ public class InputReader {
     try {
       return new BigInteger(nextString());
     } catch (NumberFormatException e) {
-      throw new InputMismatchException();
+      throw new UnknownError();
     }
   }
 
@@ -188,7 +187,7 @@ public class InputReader {
         return res * Math.pow(10, nextInt());
       }
       if (c < '0' || c > '9') {
-        throw new InputMismatchException();
+        throw new UnknownError();
       }
       res *= 10;
       res += c - '0';
@@ -202,7 +201,7 @@ public class InputReader {
           return res * Math.pow(10, nextInt());
         }
         if (c < '0' || c > '9') {
-          throw new InputMismatchException();
+          throw new UnknownError();
         }
         m /= 10;
         res += (c - '0') * m;

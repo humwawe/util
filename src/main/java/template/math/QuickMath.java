@@ -1,8 +1,5 @@
 package template.math;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author hum
  */
@@ -72,33 +69,5 @@ public class QuickMath {
     return ans;
   }
 
-  // baby step giant step 算法求 a^x mod p = b 的x最小非负整数解
-  // 令 x=i*t-j 其中t=sqrt(p) 0<=j<=t-1，原式等价于 (a^t)^i mod p = b*a^j
-  // 记录 b*a^j mod p 放入hash表
-  // 遍历i的值，计算(a^t)^i mod p 的值是否在hash表中
-  int bsgs(int a, int b, int p) {
-    Map<Integer, Integer> map = new HashMap<>();
-    b %= p;
-    int t = (int) (Math.sqrt(p)) + 1;
-    for (int j = 0; j < t; j++) {
-      // b*a^j
-      int val = (int) ((long) b * qp(a, j, p) % p);
-      map.put(val, j);
-    }
-    // a^t
-    a = qp(a, t, p);
-    if (a == 0) {
-      return b == 0 ? 1 : -1;
-    }
-    for (int i = 0; i <= t; i++) {
-      // (a^t)^i
-      int val = qp(a, i, p);
-      int j = map.getOrDefault(val, -1);
-      if (j >= 0 && i * t - j >= 0) {
-        return i * t - j;
-      }
-    }
-    return -1;
-  }
 
 }
