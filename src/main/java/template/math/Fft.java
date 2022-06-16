@@ -25,7 +25,7 @@ class Fft {
     return ret;
   }
 
-  public static double[][] fft(int[] srcRe, int n, boolean inverse) {
+  double[][] fft(int[] srcRe, int n, boolean inverse) {
     int m = srcRe.length;
     double[] dstRe = new double[n];
     double[] dstIm = new double[n];
@@ -76,7 +76,7 @@ class Fft {
     return new double[][]{dstRe, dstIm};
   }
 
-  public static void fft(double[] re, double[] im, boolean inverse) {
+  void fft(double[] re, double[] im, boolean inverse) {
     int n = re.length;
     int h = Integer.numberOfTrailingZeros(n);
     for (int i = 0; i < n; i++) {
