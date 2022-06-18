@@ -27,6 +27,16 @@ public class DoubleComp {
     boolean aLaEqB = sgn(a - b) >= 0;
   }
 
+  int cmp(double a, double b) {
+    if (Math.abs(a - b) < eps) {
+      return 0;
+    }
+    if (a < b) {
+      return -1;
+    }
+    return 1;
+  }
+
 
   int sgn(double a) {
     return a < -eps ? -1 : a < eps ? 0 : 1;
