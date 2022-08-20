@@ -2,6 +2,7 @@ package template.io;
 
 
 import java.io.*;
+import java.util.List;
 
 
 /**
@@ -20,6 +21,15 @@ public class OutputWriter {
 
   public void print(char[] array) {
     writer.print(array);
+  }
+
+  public void print(List<Integer> array) {
+    for (int i = 0; i < array.size(); i++) {
+      if (i != 0) {
+        writer.print(' ');
+      }
+      writer.print(array.get(i));
+    }
   }
 
   public void print(Object... objects) {
@@ -56,6 +66,11 @@ public class OutputWriter {
       }
       writer.print(array[i]);
     }
+  }
+
+  public void println(List<Integer> list) {
+    print(list);
+    writer.println();
   }
 
   public void println(int[] array) {
