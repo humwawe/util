@@ -13,7 +13,8 @@ public class BinaryIndexedTree {
     return x & -x;
   }
 
-  // 位置从1开始
+  // 位置从1开始，不能有0，否则lowbit会死循环
+  // 对某个位置进行加c操作，如果是修改可以转变为加上：修改值与原数的差值
   void add(int x, int c) {
     for (int i = x; i < N; i += lowbit(i)) {
       t[i] += c;
@@ -40,6 +41,20 @@ public class BinaryIndexedTree {
       sum[i] = sum[i - 1] + a[i];
       t[i] = sum[i] - sum[i - lowbit(i)];
     }
+  }
+
+  // 树状数组上二分
+  // 查询最大的位置满足 前缀和 <= s
+  int query(int s) {
+    int pos = 0;
+    // i从最高位开始，log(n)的上界
+    for (int i = 18; i >= 0; i--) {
+      if (pos + (1 << i) < N && t[pos + (1 << i)] <= s) {
+        pos += 1 << i;
+        s -= t[pos];
+      }
+    }
+    return pos;
   }
 
   // 区间修改，区间查询，构建一个d1差分数组，在d1的基础构建d2 = d1[i]*i
