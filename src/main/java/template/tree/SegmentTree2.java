@@ -24,7 +24,7 @@ public class SegmentTree2 {
     }
   }
 
-  // 从u开始，构建[l,r]的树，w[i]存每个节点的值(1开始)
+  // 从u开始，构建[l,r]的树，w[i]存每个节点的值(从l到r)
   void build(int u, int l, int r) {
     if (l == r) {
       tr[u] = new Node(l, r, w[r], 0);
@@ -45,14 +45,14 @@ public class SegmentTree2 {
     }
     pushDown(u);
     int mid = tr[u].l + tr[u].r >> 1;
-    int sum = 0;
-    if (l <= mid) {
-      sum += query(u << 1, l, r);
+    if (r <= mid) {
+      return query(u << 1, l, r);
+    } else if (l > mid) {
+      return query(u << 1 | 1, l, r);
+    } else {
+      return query(u << 1, l, r) + query(u << 1 | 1, l, r);
     }
-    if (r > mid) {
-      sum += query(u << 1 | 1, l, r);
-    }
-    return sum;
+
   }
 
   void modify(int u, int l, int r, int d) {
@@ -63,13 +63,17 @@ public class SegmentTree2 {
     }
     // 分裂
     pushDown(u);
+
     int mid = tr[u].l + tr[u].r >> 1;
-    if (l <= mid) {
+    if (r <= mid) {
       modify(u << 1, l, r, d);
-    }
-    if (r > mid) {
+    } else if (l > mid) {
+      modify(u << 1 | 1, l, r, d);
+    } else {
+      modify(u << 1, l, r, d);
       modify(u << 1 | 1, l, r, d);
     }
+
     pushUp(u);
   }
 
