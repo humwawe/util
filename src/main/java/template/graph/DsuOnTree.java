@@ -77,7 +77,7 @@ public class DsuOnTree {
     // u 本身加入
     add(u);
 
-    /**
+    /*
      * 一般在此 update(ans)
      */
 
