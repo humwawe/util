@@ -11,6 +11,7 @@ public class TrieArray {
    */
   // 所有str的长度和
   int n = 100;
+  // 有时候n太长，可以交换放到第二维
   int[][] son = new int[n][26];
   int[] cnt = new int[n];
   int idx = 0;
