@@ -58,12 +58,12 @@ public class TrieByList {
 
     public String toString(String indent) {
       StringBuilder sb = new StringBuilder();
-      sb.append(indent + id + ":" + c);
+      sb.append(indent).append(id).append(":").append(c);
       if (hit != 0) {
-        sb.append(" H:" + hit);
+        sb.append(" H:").append(hit);
       }
       if (fail != null) {
-        sb.append(" F:" + fail.id);
+        sb.append(" F:").append(fail.id);
       }
       sb.append("\n");
       for (int i = 0; i < p; i++) {
@@ -71,6 +71,21 @@ public class TrieByList {
       }
       return sb.toString();
     }
+  }
+
+  public void add(char[] s) {
+    TrieByList.Node cur = root;
+    TrieByList.Node pre = null;
+    for (char c : s) {
+      pre = cur;
+      cur = pre.search(c);
+      if (cur == null) {
+        cur = new TrieByList.Node(c, gen++);
+        pre.appendChild(cur);
+      }
+    }
+    // hit记录不同的值
+    cur.hit++;
   }
 
   public void add(char[] s, int id) {

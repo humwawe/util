@@ -22,6 +22,43 @@ public class Graph {
     Arrays.fill(h, -1);
   }
 
+  //  int[] h, e, ne, w;
+  //  int idx;
+
+  //  int[][] g = packG(n, edges);
+  //  h = g[0]; e = g[1]; ne = g[2]; w = g[3]; idx = g[4][0];
+  int[][] packG(int n, int[][] edges) {
+    int[] h = new int[n + 1];
+    for (int i = 0; i <= n; i++) {
+      h[i] = -1;
+    }
+    int m = edges.length;
+    int M = m * 2 + 5;
+    int[] e = new int[M];
+    int[] ne = new int[M];
+    int[] w = new int[M];
+    int[] idx = new int[]{0};
+
+    for (int[] edge : edges) {
+      int a = edge[0];
+      int b = edge[1];
+      int c = edge[2];
+
+      e[idx[0]] = b;
+      w[idx[0]] = c;
+      ne[idx[0]] = h[a];
+      h[a] = idx[0]++;
+
+      e[idx[0]] = a;
+      w[idx[0]] = c;
+      ne[idx[0]] = h[b];
+      h[b] = idx[0]++;
+    }
+
+    return new int[][]{h, e, ne, w, idx};
+  }
+
+
   void add(int a, int b) {
     e[idx] = b;
     ne[idx] = h[a];
