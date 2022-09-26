@@ -20,7 +20,7 @@ public class TrieByList {
     public long ptn = 0;
     public int p = 0;
     public Node[] child = null;
-    public int hit = 0;
+    public int hit = -1;
 
     public Node fail;
 
@@ -73,7 +73,7 @@ public class TrieByList {
     }
   }
 
-  public void add(char[] s) {
+  public void add(char[] s, int id) {
     Node cur = root;
     Node pre = null;
     for (char c : s) {
@@ -83,8 +83,8 @@ public class TrieByList {
         cur = new Node(c, gen++);
         pre.appendChild(cur);
       }
-      cur.hit++;
     }
+    cur.hit = id;
   }
 
   public void buildFailure() {
