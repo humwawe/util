@@ -23,6 +23,18 @@ public class Discretization {
     }
   }
 
+  // a=uniq(a)
+  int[] uniq(int[] a) {
+    //  Arrays.sort(a);
+    int p = 0;
+    for (int i = 0; i < a.length; i++) {
+      if (i == 0 || a[i] != a[i - 1]) {
+        a[p++] = a[i];
+      }
+    }
+    return Arrays.copyOf(a, p);
+  }
+
   public int find(int x) {
     // 返回x的位置
     // 负数表示没找到，插入位置需要取反
