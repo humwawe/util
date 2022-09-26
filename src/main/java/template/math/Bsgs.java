@@ -1,5 +1,6 @@
 package template.math;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,5 +102,48 @@ public class Bsgs {
       k >>= 1;
     }
     return (int) res % p;
+  }
+
+  // from uwi
+  public long bsgs(long alpha, long beta, int p) {
+    int m = (int) Math.sqrt(p) + 1;
+    long[] table = new long[m];
+    long val = 1;
+    for (int j = 0; j < m; j++) {
+      table[j] = val << 32 | j;
+      val = val * alpha % p;
+    }
+    Arrays.sort(table);
+    long ainvm = invl(val, p);
+
+    long g = beta;
+    for (int i = 0; i < m; i++) {
+      int ind = Arrays.binarySearch(table, g << 32);
+      if (ind < 0) {
+        ind = -ind - 1;
+      }
+      if (ind < m && table[ind] >>> 32 == g) {
+        return i * m + (int) table[ind];
+      }
+      g = g * ainvm % p;
+    }
+    return -1;
+  }
+
+
+  public long invl(long a, long mod) {
+    long b = mod;
+    long p = 1, q = 0;
+    while (b > 0) {
+      long c = a / b;
+      long d;
+      d = a;
+      a = b;
+      b = d % b;
+      d = p;
+      p = q;
+      q = d - c * q;
+    }
+    return p < 0 ? p + mod : p;
   }
 }
