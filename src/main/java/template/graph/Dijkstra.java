@@ -70,6 +70,7 @@ public class Dijkstra {
       if (vis[v]) {
         continue;
       }
+      // 第一次弹出即是最短的距离，无法处理负数（存在负数使得第一次弹出可能并不是最小值）
       vis[v] = true;
       for (int i = h[v]; i != -1; i = ne[i]) {
         int j = e[i];

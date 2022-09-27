@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Queue;
 
 /**
+ * 队列优化的BellmanFord算法
  * 平均情况下 O(m)，最坏情况下 O(nm)
  *
  * @author hum
@@ -39,6 +40,7 @@ public class Spfa {
     dist[1] = 0;
     Queue<Integer> queue = new ArrayDeque<>();
     queue.add(1);
+    // 暴力的扩展，vis 维护点是否在队列中，在队列中即可不再放入
     vis[1] = true;
     while (!queue.isEmpty()) {
       int t = queue.poll();
