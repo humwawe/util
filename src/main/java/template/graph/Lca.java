@@ -75,6 +75,8 @@ public class Lca {
   int m;
   int[] lca = new int[m];
 
+  // 基于dfs
+  // 如果在遍历的时候发现是所求的点，考虑之前遍历过的点路径压缩后的顶点
   void tarjan(int u) {
     vis[u] = 1;
     for (int i = h[u]; i != -1; i = ne[i]) {
@@ -86,7 +88,7 @@ public class Lca {
       tarjan(j);
       fa[j] = u;
     }
-
+    // 考虑每对需要求的点，是否已经遍历过
     for (int i = h2[u]; i != -1; i = ne2[i]) {
       int j = e2[i];
       if (vis[j] == 2) {
@@ -103,6 +105,7 @@ public class Lca {
     return fa[x];
   }
 
+  // 离线处理，加正反
   void add(int a, int b, int id) {
     e2[idx2] = b;
     ne2[idx2] = h2[a];
