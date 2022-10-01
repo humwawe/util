@@ -107,10 +107,19 @@ public class Lca {
 
   // 离线处理，加正反
   void add(int a, int b, int id) {
+    if (a == b) {
+      lca[id] = a;
+      return;
+    }
     e2[idx2] = b;
     ne2[idx2] = h2[a];
     queryId[idx2] = id;
     h2[a] = idx2++;
+
+    e2[idx2] = a;
+    ne2[idx2] = h2[b];
+    queryId[idx2] = id;
+    h2[b] = idx2++;
   }
 
 }
