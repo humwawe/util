@@ -29,8 +29,10 @@ public class IterablePermutation implements Iterable<int[]>, Iterator<int[]> {
     }
     int n = a.length;
     int i;
-    for (i = n - 2; i >= 0 && a[i] >= a[i + 1]; i--)
-      ;
+    i = n - 2;
+    while (i >= 0 && a[i] >= a[i + 1]) {
+      i--;
+    }
     return i != -1;
   }
 
