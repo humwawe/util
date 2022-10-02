@@ -13,7 +13,8 @@ public class Gcd {
   // 求x, y，使得ax + by = gcd(a, b)
   // ax + by = m 成立，则m是gcd(a, b)的倍数
   // 返回d是最大公约数
-  // x,y为一组解，更多的解可以xOther=x-b/d*k,yOther=y+b/d*k (k为整数)
+  // x,y为一组解，更多的解可以x'=x+b/d*k,y'=y-a/d*k (k为整数)
+  // 对x和y, |x|<=|c/d*b| |y|<=|c/d*a|
   int exgcd(int a, int b) {
     if (b == 0) {
       x = 1;

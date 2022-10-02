@@ -67,6 +67,32 @@ public class Divisor {
   }
 
 
+  // p 保存质因子，t保存次数
+  int[][] divide2(int x) {
+    int len = 0;
+    int N = 65;
+    int[] p = new int[N];
+    int[] t = new int[N];
+    for (int i = 2; i * i <= x; i++) {
+      if (x % i == 0) {
+        p[len] = i;
+        t[len] = 0;
+        while (x % i == 0) {
+          t[len]++;
+          x /= i;
+        }
+        len++;
+      }
+    }
+    if (x > 1) {
+      p[len] = x;
+      t[len] = 1;
+      len++;
+    }
+    return new int[][]{Arrays.copyOf(p, len), Arrays.copyOf(t, len)};
+  }
+
+
   int N = (int) (1e5 + 5);
   // 如果需要对很多数分解，可以考虑线性筛预处理出每个数的最小质因子，随后直接相除，不需要试余数判断
   // 存每个数的最小质因子
