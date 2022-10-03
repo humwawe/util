@@ -13,6 +13,13 @@ public class SegmentTree3 {
 
   void pushDown(Node u) {
     if (u.add != 0) {
+      int mid = u.l + u.r >> 1;
+      if (u.leftChild == null) {
+        u.leftChild = new Node(u.l, mid);
+      }
+      if (u.rightChild == null) {
+        u.rightChild = new Node(mid + 1, u.r);
+      }
       u.leftChild.add += u.add;
       u.leftChild.sum += (u.leftChild.r - u.leftChild.l + 1) * u.add;
       u.rightChild.add += u.add;
@@ -40,37 +47,65 @@ public class SegmentTree3 {
     }
     // 分裂
     pushDown(u);
-    if (l <= mid) {
+
+    if (r <= mid) {
       modify(u.leftChild, l, r, d);
-    }
-    if (r > mid) {
+    } else if (l > mid) {
+      modify(u.rightChild, l, r, d);
+    } else {
+      modify(u.leftChild, l, r, d);
       modify(u.rightChild, l, r, d);
     }
+
     pushUp(u);
   }
 
   // 从u开始查找
   int query(Node u, int l, int r) {
-    // 已经完全在[l,r]中了
+    if (u == null) {
+      return 0;
+    }
     if (u.l >= l && u.r <= r) {
       return u.sum;
     }
-    int mid = u.l + u.r >> 1;
-    if (u.leftChild == null) {
-      u.leftChild = new Node(u.l, mid);
-    }
-    if (u.rightChild == null) {
-      u.rightChild = new Node(mid + 1, u.r);
-    }
+
     pushDown(u);
-    int sum = 0;
-    if (l <= mid) {
-      sum += query(u.leftChild, l, r);
+    int mid = u.l + u.r >> 1;
+    if (r <= mid) {
+      return query(u.leftChild, l, r);
+    } else if (l > mid) {
+      return query(u.rightChild, l, r);
+    } else {
+      return query(u.leftChild, l, r) + query(u.rightChild, l, r);
     }
-    if (r > mid) {
-      sum += query(u.rightChild, l, r);
+
+  }
+
+  // 合并两个线段树到p上，将对应值相加
+  // s1.root = s1.merge(s1.root, s2.root);
+  Node merge(Node p, Node q) {
+    if (p == null) {
+      return q;
     }
-    return sum;
+    if (q == null) {
+      return p;
+    }
+
+    pushDown(p);
+    pushDown(q);
+
+    // 合并到最后
+    if (p.l == p.r) {
+      p.sum += q.sum;
+      //  p.add += q.add;
+      return p;
+    }
+    p.leftChild = merge(p.leftChild, q.leftChild);
+    p.rightChild = merge(p.rightChild, q.rightChild);
+
+    pushUp(p);
+
+    return p;
   }
 
   class Node {
