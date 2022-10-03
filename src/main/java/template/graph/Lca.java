@@ -11,11 +11,13 @@ public class Lca {
   int M = 2 * N;
   int[] h = new int[N];
   int[] e = new int[M];
+  int[] w = new int[M];
   int[] ne = new int[M];
   int idx;
   // (int)log(N)+1
   int T = 18;
   int[] d = new int[N];
+  int[] dist = new int[N];
   int[][] f = new int[N][T];
 
   void bfs() {
@@ -28,6 +30,7 @@ public class Lca {
         int j = e[i];
         if (d[j] == 0) {
           d[j] = d[u] + 1;
+          dist[j] = dist[u] + w[i];
           f[j][0] = u;
           for (int k = 1; k < T; k++) {
             f[j][k] = f[f[j][k - 1]][k - 1];
@@ -60,6 +63,11 @@ public class Lca {
       }
     }
     return f[a][0];
+  }
+
+  // 点a点b在树上的距离
+  private int distPoint(int a, int b) {
+    return dist[a] + dist[b] - 2 * dist[lca(a, b)];
   }
 
   int M2 = (int) 1e4 + 5;
