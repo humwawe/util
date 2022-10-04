@@ -93,36 +93,45 @@ public class Divisor {
   }
 
 
-  int N = (int) (1e5 + 5);
   // 如果需要对很多数分解，可以考虑线性筛预处理出每个数的最小质因子，随后直接相除，不需要试余数判断
   // 存每个数的最小质因子
-  int[] p = new int[N];
-
-  void initP() {
-    for (int i = 0; i < N; i++) {
-      p[i] = i;
-    }
-    for (int i = 2; i < N; i++) {
-      if (p[i] == i) {
-        for (int j = i + i; j < N; j += i) {
-          if (p[j] == j) {
-            p[j] = i;
-          }
-        }
+  // int[] lpf = enumLowestPrimeFactors(N);
+  // factorFast(x, lpf)
+  public int[][] factorFast(int n, int[] lpf) {
+    int[][] f = new int[9][];
+    int q = 0;
+    while (lpf[n] > 0) {
+      int p = lpf[n];
+      if (q == 0 || p != f[q - 1][0]) {
+        f[q++] = new int[]{p, 1};
+      } else {
+        f[q - 1][1]++;
       }
+      n /= p;
     }
+    return Arrays.copyOf(f, q);
   }
 
-  Map<Integer, Integer> divideWithP(int x) {
-    Map<Integer, Integer> map = new HashMap<>();
-    while (x > 1) {
-      int y = p[x];
-      int z = 0;
-      for (; x % y == 0; x /= y) {
-        ++z;
-      }
-      map.put(y, z);
+  public int[] enumLowestPrimeFactors(int n) {
+    int tot = 0;
+    int[] lpf = new int[n + 1];
+    int u = n + 32;
+    double lu = Math.log(u);
+    int[] primes = new int[(int) (u / lu + u / lu / lu * 1.5)];
+    for (int i = 2; i <= n; i++) {
+      lpf[i] = i;
     }
-    return map;
+    for (int p = 2; p <= n; p++) {
+      if (lpf[p] == p) {
+        primes[tot++] = p;
+      }
+      int tmp;
+      for (int i = 0; i < tot && primes[i] <= lpf[p] && (tmp = primes[i] * p) <= n; i++) {
+        lpf[tmp] = primes[i];
+      }
+    }
+    return lpf;
   }
+
+
 }

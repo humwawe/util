@@ -100,7 +100,8 @@ public class Combination {
     return fif[0][a] * fif[1][b] % mod * fif[1][a - b] % mod;
   }
 
-  // Lucas定理, 若p是质数
+  // Lucas定理, p是质数，一般用在a,b很大，p比较小的情况
+  // 将a,b表示成p的进制数，然后每一位取(c[a0][b0]*c[a1][b1]....)%p
   // c[a][b] % p = c[a % p][b % p] * c[a / p][b / p] % p
   int p = 107;
 
