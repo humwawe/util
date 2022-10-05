@@ -99,12 +99,15 @@ public class Tarjan {
       if (dfn[j] == 0) {
         tarjanBridge(j, i);
         low[u] = Math.min(low[u], low[j]);
-        // 桥
+        // 桥，子节点无法追溯到更上面
         if (low[j] > dfn[u]) {
           bridge[i] = true;
           bridge[i ^ 1] = true;
         }
-      } else if (i != (inEdge ^ 1)) {
+      }
+      // 记录边inEdge而不是父节点可以处理重边
+      // 到已访问的点且不是回父亲的边，说明出现环
+      else if (i != (inEdge ^ 1)) {
         low[u] = Math.min(low[u], dfn[j]);
       }
     }

@@ -62,7 +62,7 @@ public class Spfa {
     return dist[n];
   }
 
-  // 当前最短路边的数量
+  // 当前到x点的最短路包含边的数量，n个点的最短路如果没有负环最多有n-1条边
   int[] cnt = new int[N];
 
   // 是否存在负环回路(总共n个点)
