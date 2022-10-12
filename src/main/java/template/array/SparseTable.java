@@ -5,14 +5,27 @@ package template.array;
  */
 public class SparseTable {
   int inf = 0x3f3f3f3f;
-  int N = (int) (1e5 + 5);
+  int N;
   int logn = 21;
-  int[] lg2 = new int[N];
-  // dp[i][j] 保留i开始2^j个数中的最大值
-  int[][] dp = new int[N][logn];
+  int[] lg2;
+
+  int[][] dp;
+
+  public SparseTable(int n) {
+    this.N = n + 5;
+    lg2 = new int[N];
+    // dp[i][j] 保留i开始2^j个数中的最大值,logn最大可以a取到lg2(n)
+    dp = new int[N][logn];
+    initPre();
+  }
+
+  public SparseTable(int[] a) {
+    this(a.length);
+    init(a);
+  }
 
   // 预处理log函数值
-  void initPre() {
+  private void initPre() {
     lg2[0] = -1;
     for (int i = 1; i < N; i++) {
       lg2[i] = lg2[i >> 1] + 1;
