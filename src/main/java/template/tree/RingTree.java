@@ -29,8 +29,10 @@ public class RingTree {
         dfs(j);
       }
       // 考虑自环的话可以取到 dfn[j] >= dfn[u]
+      //（add(x,x),add(x,x)）遍历u时，会有两条j=u，自环可能会算两边
       else if ((i ^ 1) != fa[u] & dfn[j] > dfn[u]) {
         getCycle(u, j, w[i]);
+
       }
     }
   }

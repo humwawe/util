@@ -57,6 +57,7 @@ public class DfsSequence {
         dfsCycle(j);
       }
       // 碰到环，取等于可以找自环
+      //（add(x,x),add(x,x)）遍历u时，会有两条j=u，自环可能会算两边
       else if ((i ^ 1) != fa[u] && dfn[j] >= dfn[u]) {
         getCycle(u, j, w[i]);
       }
