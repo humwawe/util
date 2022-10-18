@@ -50,12 +50,12 @@ public class CombinationMath {
     }
   }
 
-  static long fact(int n) {
+  public static long fact(int n) {
     buildFactTable(n);
     return fact.get(n);
   }
 
-  static long invFact(int n) {
+  public static long invFact(int n) {
     buildFactTable(n);
     return invFact.get(n);
   }
@@ -65,7 +65,7 @@ public class CombinationMath {
     return fact(n) * invFact(r) % mod * invFact(n - r) % mod;
   }
 
-  static long comb(long n, long r) {
+  public static long comb(long n, long r) {
     rangeCheck(n, r);
     if (n < MEMO_THRESHOLD) {
       return comb0((int) n, (int) r);
@@ -84,7 +84,7 @@ public class CombinationMath {
     return fact(n) * invFact(n - r) % mod;
   }
 
-  static long perm(long n, long r) {
+  public static long perm(long n, long r) {
     rangeCheck(n, r);
     if (n < MEMO_THRESHOLD) {
       return perm0((int) n, (int) r);
@@ -96,7 +96,7 @@ public class CombinationMath {
     return x;
   }
 
-  static long homo(long n, long r) {
+  public static long homo(long n, long r) {
     return r == 0 ? 1 : comb(n + r - 1, r);
   }
 
@@ -105,7 +105,7 @@ public class CombinationMath {
     return inv.get(a);
   }
 
-  static long inv(long a) {
+  public static long inv(long a) {
     if (a < MEMO_THRESHOLD) {
       return inv0((int) a);
     }
@@ -125,7 +125,7 @@ public class CombinationMath {
     return (u %= mod) < 0 ? u + mod : u;
   }
 
-  static long pow(long a, long b) {
+  public static long pow(long a, long b) {
     if (pow.containsKey(a) && b < MEMO_THRESHOLD) {
       return powMemo(a, (int) b);
     }
@@ -146,6 +146,17 @@ public class CombinationMath {
       powMemo.add(powMemo.get(powMemo.size() - 1) * a % mod);
     }
     return powMemo.get(b);
+  }
+
+  // a一般是某两个个mod以内的值计算后的结果，不会超过mod太多，while很快结束，否则需要 %mod 计算
+  public long mod(long a) {
+    while (a >= mod) {
+      a -= mod;
+    }
+    while (a < 0) {
+      a += mod;
+    }
+    return a;
   }
 
 }
