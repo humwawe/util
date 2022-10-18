@@ -149,7 +149,7 @@ public class CombinationMath {
   }
 
   // a一般是某两个个mod以内的值计算后的结果，不会超过mod太多，while很快结束，否则需要 %mod 计算
-  public long mod(long a) {
+  public static long mod(long a) {
     while (a >= mod) {
       a -= mod;
     }
