@@ -1,4 +1,4 @@
-package template.math;
+package template.queue;
 
 import java.util.ArrayList;
 import java.util.List;
