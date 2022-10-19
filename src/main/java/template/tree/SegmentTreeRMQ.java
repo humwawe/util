@@ -1,5 +1,6 @@
 package template.tree;
 
+
 import java.util.Arrays;
 
 /**
@@ -12,7 +13,7 @@ public class SegmentTreeRMQ {
   public int[] vals;
   public final int I = Integer.MAX_VALUE;
 
-  // min, max可以考虑存赋值
+  // min, max可以考虑存负值
   public SegmentTreeRMQ(int n) {
     N = n;
     M = Integer.highestOneBit(Math.max(N - 1, 1)) << 2;
@@ -42,6 +43,54 @@ public class SegmentTreeRMQ {
   private void propagate(int i) {
     vals[i] = Math.min(vals[2 * i], vals[2 * i + 1]);
   }
+
+  //  public int min2(int l, int r) {
+  //    int min = I;
+  //    if (l >= r) {
+  //      return min;
+  //    }
+  //    while (l != 0) {
+  //      int f = l & -l;
+  //      if (l + f > r) {
+  //        break;
+  //      }
+  //      int v = vals[(H + l) / f];
+  //      if (v < min) {
+  //        min = v;
+  //      }
+  //      l += f;
+  //    }
+  //
+  //    while (l < r) {
+  //      int f = r & -r;
+  //      int v = vals[(H + r) / f - 1];
+  //      if (v < min) {
+  //        min = v;
+  //      }
+  //      r -= f;
+  //    }
+  //    return min;
+  //  }
+  //
+  //  public int min1(int l, int r) {
+  //    return l >= r ? I : min1(l, r, 0, H, 1);
+  //  }
+  //
+  //  private int min1(int l, int r, int cl, int cr, int cur) {
+  //    if (l <= cl && cr <= r) {
+  //      return vals[cur];
+  //    } else {
+  //      int mid = cl + cr >>> 1;
+  //      int ret = I;
+  //      if (cl < r && l < mid) {
+  //        ret = Math.min(ret, min1(l, r, cl, mid, 2 * cur));
+  //      }
+  //      if (mid < r && l < cr) {
+  //        ret = Math.min(ret, min1(l, r, mid, cr, 2 * cur + 1));
+  //      }
+  //      return ret;
+  //    }
+  //  }
 
   public int min(int l, int r) {
     int min = I;
