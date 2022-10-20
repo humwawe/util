@@ -1,5 +1,7 @@
 package template.dp;
 
+import java.util.Arrays;
+
 /**
  * the time u need think of dp
  * a) maximum or minimum
@@ -21,4 +23,21 @@ package template.dp;
  * @author hum
  */
 public class Dp {
+  public int lis(long[] in) {
+    int n = in.length;
+    int ret = 0;
+    long[] h = new long[n + 1];
+    Arrays.fill(h, Long.MIN_VALUE / 2);
+    for (int i = 0; i < n; i++) {
+      int ind = Arrays.binarySearch(h, 0, ret + 1, in[i]);
+      if (ind < 0) {
+        ind = -ind - 2;
+        h[ind + 1] = in[i];
+        if (ind >= ret) {
+          ret++;
+        }
+      }
+    }
+    return ret;
+  }
 }

@@ -6,6 +6,7 @@ import java.util.Arrays;
  * @author PF-2CRL0N
  */
 public class MinHeap {
+  //  public long[] a;
   public int[] a;
   public int[] map;
   public int[] imap;
