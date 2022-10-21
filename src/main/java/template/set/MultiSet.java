@@ -1,100 +1,59 @@
 package template.set;
 
-import java.util.Comparator;
-import java.util.Map;
+
+import java.util.List;
 import java.util.TreeMap;
 
 /**
  * @author hum
  */
-public class MultiSet<T> {
-  private TreeMap<T, Integer> map;
-  private int size;
-
+public class MultiSet<T> extends TreeMap<T, Long> {
   public MultiSet() {
-    this.map = new TreeMap<>();
+    super();
   }
 
-  public MultiSet(Comparator<T> comp) {
-    this.map = new TreeMap<>(comp);
+  public MultiSet(List<T> list) {
+    super();
+    for (T e : list) {
+      this.addOne(e);
+    }
   }
 
-  public int size() {
-    return size;
+  public long count(Object elm) {
+    return getOrDefault(elm, 0L);
   }
 
-  public int distinct() {
-    return map.size();
-  }
-
-  public T first() {
-    return map.firstKey();
-  }
-
-  public T last() {
-    return map.lastKey();
-  }
-
-  public T pollFirst() {
-    Map.Entry<T, Integer> first = map.firstEntry();
-    update(first.getKey(), first.getValue(), -1);
-    return first.getKey();
-  }
-
-  public T pollLast() {
-    Map.Entry<T, Integer> last = map.lastEntry();
-    update(last.getKey(), last.getValue(), -1);
-    return last.getKey();
-  }
-
-  public void add(T key) {
-    update(key, map.getOrDefault(key, 0), +1);
-  }
-
-  public void remove(T key) {
-    update(key, map.getOrDefault(key, 0), -1);
-  }
-
-  public T ceil(T x) {
-    return map.ceilingKey(x);
-  }
-
-  public T floor(T x) {
-    return map.floorKey(x);
-  }
-
-  public void update(T key, int old, int mod) {
-    int cnt = old + mod;
-    size += mod;
-    if (cnt == 0) {
-      map.remove(key);
+  public void add(T elm, long amount) {
+    if (!this.containsKey(elm)) {
+      put(elm, amount);
     } else {
-      map.put(key, cnt);
+      replace(elm, get(elm) + amount);
+    }
+    if (this.count(elm) == 0) {
+      this.remove(elm);
     }
   }
 
-  public int count(T key) {
-    return map.getOrDefault(key, 0);
+  public void addOne(T elm) {
+    this.add(elm, 1);
   }
 
-  public void addAll(MultiSet<T> set) {
-    for (Map.Entry<T, Integer> entry : set.map.entrySet()) {
-      update(entry.getKey(), set.count(entry.getKey()), entry.getValue());
-    }
+  public void removeOne(T elm) {
+    this.add(elm, -1);
+  }
+
+  public void removeAll(T elm) {
+    this.add(elm, -this.count(elm));
   }
 
   public static <T> MultiSet<T> merge(MultiSet<T> a, MultiSet<T> b) {
-    if (a.distinct() < b.distinct()) {
-      MultiSet<T> tmp = a;
-      a = b;
-      b = tmp;
+    MultiSet<T> c = new MultiSet<>();
+    for (T x : a.keySet()) {
+      c.add(x, a.count(x));
     }
-    a.addAll(b);
-    return a;
-  }
-
-  @Override
-  public String toString() {
-    return map.toString();
+    for (T y : b.keySet()) {
+      c.add(y, b.count(y));
+    }
+    return c;
   }
 }
