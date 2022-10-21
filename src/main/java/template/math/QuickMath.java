@@ -70,4 +70,26 @@ public class QuickMath {
   }
 
 
+  // 求 (a*i+b)/m 的和（向下取整）， i范围[0,n-1] a,b≥0，n,m>0
+  public long floorSum(long n, long m, long a, long b) {
+    long ans = 0;
+    if (a >= m) {
+      ans += (n - 1) * n * (a / m) / 2;
+      a %= m;
+    }
+    if (b >= m) {
+      ans += n * (b / m);
+      b %= m;
+    }
+
+    long yMax = (a * n + b) / m;
+    long xMax = yMax * m - b;
+    if (yMax == 0) {
+      return ans;
+    }
+    ans += (n - (xMax + a - 1) / a) * yMax;
+    ans += floorSum(yMax, a, m, (a - xMax % a) % a);
+    return ans;
+  }
+
 }

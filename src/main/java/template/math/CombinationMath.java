@@ -6,7 +6,7 @@ import java.util.*;
  * @author hum
  */
 public class CombinationMath {
-  private static final int MEMO_THRESHOLD = 1000000;
+  private static final int MEMO_THRESHOLD = 1000005;
   static long mod = (long) 1e9 + 7;
   private static final List<Long> inv = new ArrayList<>();
   private static final List<Long> fact = new ArrayList<>();
