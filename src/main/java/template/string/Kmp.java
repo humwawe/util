@@ -40,14 +40,12 @@ public class Kmp {
     }
   }
 
-  public int helper() {
-    // y[]是长文本，x[]是模式串
-    char y[] = new char[]{'a', 'b', 'c', 'b', 'c', 'b', 'c'};
-    char x[] = new char[]{'b', 'c', 'b'};
+  // y[]是长文本，x[]是模式串
+  public int kmp(char[] y, char[] x) {
     int n = y.length;
     int m = x.length;
 
-    int[] next = new int[10];
+    int[] next = new int[m + 1];
     int i, j;
     int ans = 0;
     kmpPre(x, m, next);
