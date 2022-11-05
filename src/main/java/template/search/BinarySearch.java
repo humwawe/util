@@ -1,50 +1,9 @@
 package template.search;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * @author hum
  */
 public class BinarySearch {
-
-  /**
-   * binary search
-   * no +1 or -1 when update left and right position
-   *
-   * @param nums   source array
-   * @param target target to search
-   * @return the *first* occurrence position of target
-   * if want to return last, need adjust code: 1 -> left = mid and exchange 2 and 3
-   */
-  public int helper(int[] nums, int target) {
-    if (nums.length == 0) {
-      return -1;
-    }
-    int left = 0, right = nums.length - 1;
-    int mid;
-    while (left + 1 < right) {
-      mid = left + (right - left) / 2;
-      if (nums[mid] == target) {
-        // 1
-        right = mid;
-      } else if (nums[mid] < target) {
-        left = mid;
-      } else if (nums[mid] > target) {
-        right = mid;
-      }
-    }
-    // 2
-    if (nums[left] == target) {
-      return left;
-    }
-    // 3
-    if (nums[right] == target) {
-      return right;
-    }
-    return -1;
-  }
 
   // 检查x是否满足某种性质
   boolean check(int x) {
@@ -99,7 +58,7 @@ public class BinarySearch {
     return l;
   }
 
-  // [l,r) 从左往右返回第一个大于等于t的位置，返回插入位置
+  // [l,r) 从左往右返回第一个大于等于t的位置，返回插入位置(原数组有相等时靠前)，如果结果到r(a[r]可能越界)
   int lowerBound(int[] a, int t, int l, int r) {
     while (l < r) {
       int mid = l + r >> 1;
@@ -112,7 +71,7 @@ public class BinarySearch {
     return l;
   }
 
-  // [l,r) 从左往右找第一个大于t的数，返回插入位置
+  // [l,r) 从左往右找第一个大于t的数，返回插入位置(原数组有相等时靠后)，如果结果到r(a[r]可能越界)
   int upperBound(int[] a, int t, int l, int r) {
     while (l < r) {
       int mid = l + r >> 1;
@@ -123,6 +82,54 @@ public class BinarySearch {
       }
     }
     return l;
+  }
+
+
+  // 查找第一个与 t 相等的位置，负数表明未找到，可以求反即为应该插入的位置
+  // lowerBound 且等于 t
+  int firstEqIdx(int[] a, int t, int l, int r) {
+    int x = lowerBound(a, t, l, r);
+    if (x < a.length && a[x] == t) {
+      return x;
+    }
+    // x: [0,n]
+    // ~x=-x-1:[-n-1,-1]
+    return ~x;
+  }
+
+  // 查找最后一个与 t 相等的位置，负数表明未找到
+  // upperBound 前一个且等于 t
+  int lastEqIdx(int[] a, int t, int l, int r) {
+    int x = upperBound(a, t, l, r);
+    if (x - 1 >= 0 && a[x - 1] == t) {
+      return x - 1;
+    }
+    return ~x;
+  }
+
+  // 查找最后一个等于或小于 t 的元素
+  // upperBound 前一个
+  int lastEqLeEle(int[] a, int t, int l, int r) {
+    int x = upperBound(a, t, l, r);
+    if (x - 1 >= 0) {
+      return a[x - 1];
+    }
+    return -0x3f3f3f3f;
+  }
+
+  // 查找最后一个小于 t 的元素
+  // lowerBound 前一个
+  int lastLeEle(int[] a, int t, int l, int r) {
+    int x = lowerBound(a, t, l, r);
+    if (x - 1 >= 0) {
+      return a[x - 1];
+    }
+    return -0x3f3f3f3f;
+  }
+
+  // 查找等于 t 的元素个数
+  int eqCnt(int[] a, int t, int l, int r) {
+    return upperBound(a, t, l, r) - lowerBound(a, t, l, r);
   }
 
   // [l,r] 闭区间，从右往左返回第一个小于等于t的位置，最小最多到0
@@ -138,27 +145,5 @@ public class BinarySearch {
     return l;
   }
 
-  // 返回插入位置
-  int lowerBoundArray(Integer[] arr, int t) {
-    // 自定义比较器，比较器没有返回0
-    int result = Arrays.binarySearch(arr, t, (o1, o2) -> (o1.compareTo(o2) >= 0) ? 1 : -1);
-    // 所有result均为负数，取反等价于 -result-1
-    return (result >= 0) ? result : ~result;
-  }
-
-  int upperBoundArray(Integer[] arr, int t) {
-    int result = Arrays.binarySearch(arr, t, (o1, o2) -> (o1.compareTo(o2) > 0) ? 1 : -1);
-    return (result >= 0) ? result : ~result;
-  }
-
-  int lowerBoundList(List<Integer> list, int t) {
-    int result = Collections.binarySearch(list, t, (o1, o2) -> (o1.compareTo(o2) >= 0) ? 1 : -1);
-    return (result >= 0) ? result : ~result;
-  }
-
-  int upperBoundList(List<Integer> list, int t) {
-    int result = Collections.binarySearch(list, t, (o1, o2) -> (o1.compareTo(o2) > 0) ? 1 : -1);
-    return (result >= 0) ? result : ~result;
-  }
 
 }
