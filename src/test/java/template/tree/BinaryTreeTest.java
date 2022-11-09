@@ -1,7 +1,6 @@
 package template.tree;
 
 import org.junit.jupiter.api.Test;
-import template.common.TreeNode;
 
 
 class BinaryTreeTest {

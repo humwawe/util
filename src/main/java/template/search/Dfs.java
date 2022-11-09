@@ -1,7 +1,5 @@
 package template.search;
 
-import template.common.TreeNode;
-
 import java.util.ArrayList;
 import java.util.List;
 
