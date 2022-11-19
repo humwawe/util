@@ -55,7 +55,7 @@ public class SegmentTree2 {
 
   }
 
-  void modify(int u, int l, int r, int d) {
+  void add(int u, int l, int r, int d) {
     if (tr[u].l >= l && tr[u].r <= r) {
       tr[u].sum += (tr[u].r - tr[u].l + 1) * d;
       tr[u].add += d;
@@ -66,12 +66,12 @@ public class SegmentTree2 {
 
     int mid = tr[u].l + tr[u].r >> 1;
     if (r <= mid) {
-      modify(u << 1, l, r, d);
+      add(u << 1, l, r, d);
     } else if (l > mid) {
-      modify(u << 1 | 1, l, r, d);
+      add(u << 1 | 1, l, r, d);
     } else {
-      modify(u << 1, l, r, d);
-      modify(u << 1 | 1, l, r, d);
+      add(u << 1, l, r, d);
+      add(u << 1 | 1, l, r, d);
     }
 
     pushUp(u);

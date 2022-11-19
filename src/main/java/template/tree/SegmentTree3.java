@@ -70,7 +70,7 @@ public class SegmentTree3 {
 
   }
 
-  void modify(int u, int l, int r, int d) {
+  void add(int u, int l, int r, int d) {
     if (left[u] >= l && right[u] <= r) {
       sum[u] += (right[u] - left[u] + 1) * d;
       add[u] += d;
@@ -81,12 +81,12 @@ public class SegmentTree3 {
 
     int mid = left[u] + right[u] >> 1;
     if (r <= mid) {
-      modify(u << 1, l, r, d);
+      add(u << 1, l, r, d);
     } else if (l > mid) {
-      modify(u << 1 | 1, l, r, d);
+      add(u << 1 | 1, l, r, d);
     } else {
-      modify(u << 1, l, r, d);
-      modify(u << 1 | 1, l, r, d);
+      add(u << 1, l, r, d);
+      add(u << 1 | 1, l, r, d);
     }
 
     pushUp(u);

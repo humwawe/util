@@ -32,7 +32,7 @@ public class SegmentTree4 {
     root = new Node(start, end);
   }
 
-  void modify(Node u, int l, int r, int d) {
+  void add(Node u, int l, int r, int d) {
     if (u.l >= l && u.r <= r) {
       u.sum += (u.r - u.l + 1) * d;
       u.add += d;
@@ -49,12 +49,12 @@ public class SegmentTree4 {
     pushDown(u);
 
     if (r <= mid) {
-      modify(u.leftChild, l, r, d);
+      add(u.leftChild, l, r, d);
     } else if (l > mid) {
-      modify(u.rightChild, l, r, d);
+      add(u.rightChild, l, r, d);
     } else {
-      modify(u.leftChild, l, r, d);
-      modify(u.rightChild, l, r, d);
+      add(u.leftChild, l, r, d);
+      add(u.rightChild, l, r, d);
     }
 
     pushUp(u);
