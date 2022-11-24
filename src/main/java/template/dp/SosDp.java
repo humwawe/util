@@ -16,6 +16,7 @@ public class SosDp {
   //     sum[state] += sum[state'];
 
   // 以二进制的子集求和为例，超集可以求后缀和
+  // a[i] 是状态i代表的子集的和
   int[] sosDp(int n, int[] a) {
     int lim = 1 << n;
     // 初始化
@@ -25,6 +26,10 @@ public class SosDp {
         if (((j >> i) & 1) == 1) {
           sum[j] += sum[j - (1 << i)];
         }
+        // 超集 后缀和;
+        // else {
+        //   suf[j] += suf[j + (1 << i)];
+        // }
       }
     }
     return sum;
