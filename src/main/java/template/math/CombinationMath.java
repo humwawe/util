@@ -13,6 +13,10 @@ public class CombinationMath {
   private static final List<Long> invFact = new ArrayList<>();
   private static final Map<Long, List<Long>> pow = new HashMap<>();
 
+  public static void initMod(long n) {
+    mod = n;
+  }
+
   private static void buildInvTable(int n) {
     if (inv.isEmpty()) {
       inv.add(null);
