@@ -6,23 +6,42 @@ import java.util.Arrays;
  * @author hum
  */
 public class Mo {
-  int N = 105;
-  int M = 105;
   // 分块大小，一般为 sqrt(n)
   int B = 500;
-  int n, m;
+  int m;
   int tmpAns;
+  int[] left;
+  int[] right;
+  int[] id;
 
-  int[] mo(Node[] query) {
+  public Mo(int m) {
+    this.m = m;
+    left = new int[m];
+    right = new int[m];
+    id = new int[m];
+  }
+
+  public Mo(int m, int[] left, int[] right, int[] id) {
+    this.m = m;
+    this.left = left;
+    this.right = right;
+    this.id = id;
+  }
+
+  int[] mo() {
+    Integer[] idx = new Integer[m];
+    for (int i = 0; i < m; i++) {
+      idx[i] = i;
+    }
     // 按块号（左端点决定）排序
     // 对奇偶的块按右大或小排序
-    Arrays.sort(query, (x, y) -> {
-      int d = x.l / B - y.l / B;
+    Arrays.sort(idx, (x, y) -> {
+      int d = left[x] / B - left[y] / B;
       if (d == 0) {
-        if (x.l / B % 2 == 0) {
-          return x.r - y.r;
+        if (left[x] / B % 2 == 0) {
+          return right[x] - right[y];
         }
-        return y.r - x.r;
+        return right[y] - right[x];
       }
       return d;
     });
@@ -34,20 +53,21 @@ public class Mo {
     // 对所有询问
     for (int i = 0; i < m; i++) {
       // 扩展
-      while (r < query[i].r) {
+      int j = idx[i];
+      while (r < right[j]) {
         add(++r);
       }
-      while (l > query[i].l) {
+      while (l > left[j]) {
         add(--l);
       }
       // 缩小
-      while (r > query[i].r) {
+      while (r > right[j]) {
         del(r--);
       }
-      while (l < query[i].l) {
+      while (l < left[j]) {
         del(l++);
       }
-      res[query[i].id] = tmpAns;
+      res[id[j]] = tmpAns;
     }
 
     return res;
@@ -62,17 +82,5 @@ public class Mo {
     // update tmpAns
   }
 
-
-  class Node {
-    int l;
-    int r;
-    int id;
-
-    public Node(int l, int r, int id) {
-      this.l = l;
-      this.r = r;
-      this.id = id;
-    }
-  }
 
 }
