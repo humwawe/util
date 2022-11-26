@@ -35,14 +35,14 @@ public class SegmentTree1 {
 
   // u是线段树的节点编号，一般从1开始，构建[l,r]的树，w[i]存每个节点的值(从l到r)
   private void build(int u, int l, int r) {
+    left[u] = l;
+    right[u] = r;
     if (l == r) {
       left[u] = l;
       right[u] = r;
       val[u] = w[r];
       return;
     }
-    left[u] = l;
-    right[u] = r;
     int mid = l + r >> 1;
     build(u << 1, l, mid);
     build(u << 1 | 1, mid + 1, r);
@@ -100,6 +100,8 @@ public class SegmentTree1 {
   // 从u开始，修改x位置的值为v
   void modify(int u, int x, int v) {
     if (left[u] == x && right[u] == x) {
+      // 如果是对某个点要加 v
+      // val[u] += v;
       val[u] = v;
       return;
     }
