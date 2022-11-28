@@ -63,8 +63,7 @@ public class SegmentTree3 {
   long query(int u, int l, int r) {
     pushDown(u);
 
-    // 已经完全在[l,r]中了
-    if (left[u] >= l && right[u] <= r) {
+    if (left[u] == l && right[u] == r) {
       return sum[u];
     }
 
@@ -75,7 +74,7 @@ public class SegmentTree3 {
       return query(u << 1 | 1, l, r);
     } else {
       // merge(query(u << 1, l, r), query(u << 1 | 1, l, r))
-      return query(u << 1, l, r) + query(u << 1 | 1, l, r);
+      return query(u << 1, l, mid) + query(u << 1 | 1, mid + 1, r);
     }
 
   }
@@ -83,7 +82,7 @@ public class SegmentTree3 {
   void add(int u, int l, int r, int d) {
     pushDown(u);
 
-    if (left[u] >= l && right[u] <= r) {
+    if (left[u] == l && right[u] == r) {
       add[u] = d;
       return;
     }
@@ -94,8 +93,8 @@ public class SegmentTree3 {
     } else if (l > mid) {
       add(u << 1 | 1, l, r, d);
     } else {
-      add(u << 1, l, r, d);
-      add(u << 1 | 1, l, r, d);
+      add(u << 1, l, mid, d);
+      add(u << 1 | 1, mid + 1, r, d);
     }
 
     pushUp(u);

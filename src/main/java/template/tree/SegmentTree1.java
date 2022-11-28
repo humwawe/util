@@ -38,8 +38,6 @@ public class SegmentTree1 {
     left[u] = l;
     right[u] = r;
     if (l == r) {
-      left[u] = l;
-      right[u] = r;
       val[u] = w[r];
       return;
     }
