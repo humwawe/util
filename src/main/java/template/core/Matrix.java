@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class Matrix {
   int n, m;
-  long[] mat;
+  public long[] mat;
 
   public Matrix(int n, int m) {
     this.n = n;

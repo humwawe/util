@@ -23,7 +23,7 @@ public class SegmentLazyTree {
     sum = new long[N * 4];
     add = new long[N * 4];
     this.w = w;
-    build(1, 0, n - 1);
+    //  build(1, 0, n - 1);
   }
 
   void pushUp(int u) {
