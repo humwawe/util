@@ -69,6 +69,7 @@ public class Spfa {
   boolean spfaHasCircle(int n) {
     // int tot = 0;
     // 保证负环能可达（只放1，从1开始可能到不了负环，图不联通）
+    // 卡spfa 可以使用deque试，每次从最末尾弹出
     Queue<Integer> queue = new ArrayDeque<>();
     for (int i = 1; i <= n; i++) {
       vis[i] = true;
@@ -87,6 +88,7 @@ public class Spfa {
           // if (tot >= 1e5) {
           // return true;
           // }
+          // 保险可以 cnt[j] > n
           if (cnt[j] >= n) {
             return true;
           }
