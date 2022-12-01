@@ -14,7 +14,8 @@ public class Graph {
   int idx, n, m;
   // 是否有方向，默认无向边
   boolean flag;
-
+  // 第i条边的from节点，e存的是to的节点
+  public int[] fe;
 
   public Graph(int n, int m) {
     this(n, m, false);
@@ -33,6 +34,8 @@ public class Graph {
     w = new int[M];
     idx = 0;
     Arrays.fill(h, -1);
+
+    fe = new int[M];
   }
 
   public void add(int a, int b) {
@@ -49,17 +52,17 @@ public class Graph {
     }
   }
 
-  public void add0(int a, int b) {
-    e[idx] = b;
-    ne[idx] = h[a];
-    h[a] = idx++;
+  private void add0(int a, int b) {
+    add0(a, b, 0);
   }
 
-  public void add0(int a, int b, int c) {
+  private void add0(int a, int b, int c) {
     e[idx] = b;
     w[idx] = c;
     ne[idx] = h[a];
     h[a] = idx++;
+
+    fe[idx] = a;
   }
 
 }

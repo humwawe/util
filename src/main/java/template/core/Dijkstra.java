@@ -20,12 +20,12 @@ public class Dijkstra {
     while (!priorityQueue.isEmpty()) {
       long[] poll = priorityQueue.poll();
       long d = poll[0];
-      int v = (int) poll[1];
-      if (vis[v]) {
+      int u = (int) poll[1];
+      if (vis[u]) {
         continue;
       }
-      vis[v] = true;
-      for (int i = graph.h[v]; i != -1; i = graph.ne[i]) {
+      vis[u] = true;
+      for (int i = graph.h[u]; i != -1; i = graph.ne[i]) {
         int j = graph.e[i];
         if (dist[j] > d + graph.w[i]) {
           dist[j] = d + graph.w[i];
