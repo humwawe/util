@@ -15,6 +15,7 @@ public class Graph {
   // 是否有方向，默认无向边
   boolean flag;
   // 第i条边的from节点，e存的是to的节点
+  // 对第i条边 a->b c 可分别为fe[i] e[i] w[i] 取到该点
   public int[] fe;
 
   public Graph(int n, int m) {
@@ -57,12 +58,11 @@ public class Graph {
   }
 
   private void add0(int a, int b, int c) {
+    fe[idx] = a;
     e[idx] = b;
     w[idx] = c;
     ne[idx] = h[a];
     h[a] = idx++;
-
-    fe[idx] = a;
   }
 
 }
