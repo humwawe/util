@@ -74,6 +74,26 @@ public class MathMeth {
     return new long[]{res, ms};
   }
 
+  public static long[] exChineseRemainder(long[] a, long[] m) {
+    assert a.length == m.length;
+    int n = a.length;
+    long a1 = a[0];
+    long m1 = m[0];
+    for (int i = 1; i < n; i++) {
+      long c = a[i] - a1;
+      long[] xyg = exgcd(m1, m[i]);
+      long g = xyg[2];
+      if (c % g != 0) {
+        return new long[]{-1, g};
+      }
+      xyg[0] = mul(xyg[0], c / g, m[i] / g);
+      a1 = xyg[0] * m1 + a1;
+      m1 = lcm(m1, m[i]);
+      a1 = (a1 % m1 + m1) % m1;
+    }
+    return new long[]{a1, m1};
+  }
+
 
   public static long phi(long x) {
     // x is prime: return x-1
