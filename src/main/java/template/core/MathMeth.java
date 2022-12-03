@@ -35,6 +35,61 @@ public class MathMeth {
     return a / gcd(a, b) * b;
   }
 
+  // 求最小正数解x使得 a*x mod m = b
+  // 答案ret[0] 通解为 ret[0] + z*ret[1]
+  public static long[] linearEquation(long a, long b, long m) {
+    long[] exgcd = exgcd(a, m);
+    if (b % exgcd[2] != 0) {
+      return new long[]{-1, exgcd[2]};
+    }
+    long rem = m / exgcd[2];
+    return new long[]{(exgcd[0] % rem + rem) % rem, rem};
+  }
+
+  // 求x使得 (x mod m1) = a1 ... (x mod mn) = an
+  // 答案ret[0] 通解为 ret[0] + z*ret[1]
+  public static long[] chineseRemainder(long[] a, long[] m) {
+    assert a.length == m.length;
+    int n = a.length;
+    long ms = 1;
+    for (int i = 0; i < n; i++) {
+      ms *= m[i];
+    }
+
+    long[] msr = new long[n];
+    for (int i = 0; i < n; i++) {
+      msr[i] = ms / m[i];
+    }
+    long[] t = new long[n];
+    for (int i = 0; i < n; i++) {
+      t[i] = linearEquation(msr[i], 1, m[i])[0];
+    }
+
+    long res = 0;
+    for (int i = 0; i < n; i++) {
+      // attention overflow
+      res += a[i] * msr[i] * t[i];
+      res %= ms;
+    }
+    return new long[]{res, ms};
+  }
+
+  public static long phi(long x) {
+    long res = x;
+    for (int i = 2; i <= x / i; i++) {
+      if (x % i == 0) {
+        res = res / i * (i - 1);
+        while (x % i == 0) {
+          x /= i;
+        }
+      }
+    }
+    if (x > 1) {
+      res = res / x * (x - 1);
+    }
+    return res;
+  }
+
   // n以内的素数列表
   public static int[] sieveEratosthenes(int n) {
     if (n <= 32) {

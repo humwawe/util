@@ -97,6 +97,7 @@ public class Divisor {
   // 存每个数的最小质因子
   // int[] lpf = enumLowestPrimeFactors(N);
   // factorFast(x, lpf)
+  // 返回素数列表和次数分别存在 ret[i][0] ret[i][1]
   public int[][] factorFast(int n, int[] lpf) {
     int[][] f = new int[9][];
     int q = 0;
@@ -112,6 +113,7 @@ public class Divisor {
     return Arrays.copyOf(f, q);
   }
 
+  // lpf[i]每个数的最小质因子
   public int[] enumLowestPrimeFactors(int n) {
     int tot = 0;
     int[] lpf = new int[n + 1];
