@@ -74,7 +74,9 @@ public class MathMeth {
     return new long[]{res, ms};
   }
 
+
   public static long phi(long x) {
+    // x is prime: return x-1
     long res = x;
     for (int i = 2; i <= x / i; i++) {
       if (x % i == 0) {
@@ -86,6 +88,106 @@ public class MathMeth {
     }
     if (x > 1) {
       res = res / x * (x - 1);
+    }
+    return res;
+  }
+
+
+  int[] eulersEratosthenes(int n) {
+    int u = n + 32;
+    double lu = Math.log(u);
+    int[] primes = new int[(int) (u / lu + u / lu / lu * 1.5)];
+    int[] euler = new int[n + 1];
+    boolean[] st = new boolean[n + 1];
+    int cnt = 0;
+    euler[1] = 1;
+    for (int i = 2; i <= n; i++) {
+      if (!st[i]) {
+        primes[cnt++] = i;
+        euler[i] = i - 1;
+      }
+      for (int j = 0; primes[j] <= n / i; j++) {
+        int t = primes[j] * i;
+        st[t] = true;
+        if (i % primes[j] == 0) {
+          euler[t] = euler[i] * primes[j];
+          break;
+        }
+        euler[t] = euler[i] * (primes[j] - 1);
+      }
+    }
+    return euler;
+  }
+
+  // 不会溢出的情况使用
+  public static long modPow0(long m, long k, long p) {
+    m %= p;
+    long res = 1;
+    int x = 63 - Long.numberOfLeadingZeros(k);
+    for (; x >= 0; x--) {
+      res = res * res % p;
+      if (k << 63 - x < 0) {
+        res = res * m % p;
+      }
+    }
+    return res;
+  }
+
+
+  public static long modPow1(long m, long k, long p) {
+    long res = 1 % p, t = m;
+    while (k > 0) {
+      if ((k & 1) == 1) {
+        res = mul(res, t, p);
+      }
+      t = mul(t, t, p);
+      k >>= 1;
+    }
+    return res % p;
+  }
+
+
+  // 求a*b mod p 可以处理负数和溢出
+  public static long mul(long a, long b, long p) {
+    boolean positive = true;
+    if (a < 0) {
+      a = -a;
+      positive = false;
+    }
+    if (b < 0) {
+      b = -b;
+      positive = !positive;
+    }
+
+    long ans = 0;
+    while (b > 0) {
+      if ((b & 1) == 1) {
+        ans = (ans + a) % p;
+      }
+      a = (a << 1) % p;
+      b = b >> 1;
+    }
+
+    if (!positive) {
+      return (-ans + p) % p;
+    }
+
+    return ans;
+  }
+
+  // sk代表的数字很大：sk > phi(p)
+  public static long modPow2(long m, String sk, long p, long phiP) {
+    long k = modStr(sk, phiP) + phiP;
+    return modPow0(m, k, p);
+
+  }
+
+  public static long modStr(String s, long p) {
+    int n = s.length();
+    long res = 0;
+    for (int i = 0; i < n; i++) {
+      // attention overflow
+      res = (res * 10 + (s.charAt(i) - '0')) % p;
     }
     return res;
   }
@@ -224,6 +326,35 @@ public class MathMeth {
       }
     }
     return lpf;
+  }
+
+  public static long arithmeticSum(long a1, long d, long n) {
+    return n * a1 + n * (n - 1) / 2 * d;
+  }
+
+  public static long geometricSum(long a1, long q, long n, int p) {
+    if (q == 1) {
+      return a1 * n % p;
+    }
+    long res = a1 * (1 - modPow0(q, n, p)) % p * inv((p + (1 - q) % p) % p, p) % p;
+    return res < 0 ? res + p : res;
+  }
+
+  public static long inv(long a, long p) {
+    long b = p;
+    long u = 1, v = 0;
+    while (b >= 1) {
+      long t = a / b;
+      a -= t * b;
+      u -= t * v;
+      if (a < 1) {
+        return (v %= p) < 0 ? v + p : v;
+      }
+      t = b / a;
+      b -= t * a;
+      v -= t * u;
+    }
+    return (u %= p) < 0 ? u + p : u;
   }
 
 }

@@ -109,6 +109,7 @@ public class CombinationMath {
     return inv.get(a);
   }
 
+  // 有逆元需要a与mod互质（可以根据扩展欧几里得证得）
   public static long inv(long a) {
     if (a < MEMO_THRESHOLD) {
       return inv0((int) a);
