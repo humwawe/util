@@ -139,18 +139,31 @@ public class MathMeth {
     return euler;
   }
 
+
+  //  public static long modPow0(long m, long k, long p) {
+  //    m %= p;
+  //    long res = 1;
+  //    int x = 63 - Long.numberOfLeadingZeros(k);
+  //    for (; x >= 0; x--) {
+  //      res = res * res % p;
+  //      if (k << 63 - x < 0) {
+  //        res = res * m % p;
+  //      }
+  //    }
+  //    return res;
+  //  }
+
   // 不会溢出的情况使用
   public static long modPow0(long m, long k, long p) {
-    m %= p;
-    long res = 1;
-    int x = 63 - Long.numberOfLeadingZeros(k);
-    for (; x >= 0; x--) {
-      res = res * res % p;
-      if (k << 63 - x < 0) {
-        res = res * m % p;
+    long res = 1 % p, t = m;
+    while (k > 0) {
+      if ((k & 1) == 1) {
+        res = res * t % p;
       }
+      t = t * t % p;
+      k >>= 1;
     }
-    return res;
+    return (int) res % p;
   }
 
 

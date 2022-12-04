@@ -6,13 +6,21 @@ package template.math;
 public class QuickMath {
   // 求 m^k mod p，时间复杂度 O(logk)
   int qp(int m, int k, int p) {
+    boolean f = false;
     long res = 1 % p, t = m;
     while (k > 0) {
       if ((k & 1) == 1) {
+        // %p 如果被使用则说明 m^k 大于p
+        // if (res * t >= p) {
+        //   f = true;
+        // }
         // 若res,t,p都是同一量级，比如int或long，则直接算可能越界
         // 可以使用在mod下的乘积 res = qm(res, t, p)
         res = res * t % p;
       }
+      // if (t * t >= p) {
+      //   f = true;
+      // }
       // t = qm(t, t, p)
       t = t * t % p;
       k >>= 1;
