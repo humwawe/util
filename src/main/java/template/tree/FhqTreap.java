@@ -36,6 +36,7 @@ public class FhqTreap {
     size[x] = size[son[x][1]] + size[son[x][0]] + 1;
   }
 
+  // 分裂成小于等于v和大于v的两部分
   int[] split(int x, int v) {
     if (x == 0) {
       return new int[]{0, 0};
