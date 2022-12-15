@@ -67,23 +67,27 @@ public class Discretization {
     return map.get(x);
   }
 
-  // 返回映射的map
+  // 返回反向的映射
   // 对x直接离散化，用0到map.size()-1 的值表示，不影响x的顺序
-  // x: [1,10,10,4] -> [0,2,2,1]  map: {1=0,4=1,10=2}
-  Map<Integer, Integer> mapping(int[] x) {
-    Map<Integer, Integer> map = new HashMap<>(x.length);
+  // x: [1,10,10,4] -> [0,2,2,1]  map: {1=0,4=1,10=2} ret:[1,4,10]
+
+  public int[] mapping(int[] x) {
+    int n = x.length;
+    Map<Integer, Integer> map = new HashMap<>(n);
     int cnt = 0;
-    int[] a = Arrays.copyOf(x, x.length);
+    int[] a = Arrays.copyOf(x, n);
+    int[] b = new int[n];
     Arrays.sort(a);
     for (int value : a) {
       if (!map.containsKey(value)) {
+        b[cnt] = value;
         map.put(value, cnt++);
       }
     }
-    for (int i = 0; i < x.length; i++) {
+    for (int i = 0; i < n; i++) {
       x[i] = map.get(x[i]);
     }
-    return map;
+    return Arrays.copyOf(b, cnt);
   }
 
 }
