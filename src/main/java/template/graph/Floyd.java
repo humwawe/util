@@ -11,9 +11,9 @@ public class Floyd {
   // 如果存在负权边，则无解一般可以用d[a][b]判断是否大于inf/2
   // 存在负环，可以看d[a][a]<0是否存在
   void floyd(int n) {
-    int[][] dist = new int[n + 1][n + 1];
-    for (int i = 1; i <= n; i++) {
-      for (int j = 1; j <= n; j++) {
+    int[][] dist = new int[n][n];
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
         if (i == j) {
           dist[i][j] = 0;
         } else {
