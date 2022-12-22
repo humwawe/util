@@ -4,12 +4,30 @@ package template.dp;
  * @author PF-2CRL0N
  */
 public class NumDp {
-  int N = 55;
-  int[] num = new int[N];
-  Integer[][] memo = new Integer[N][N];
+  int[] num;
+  Long[][] memo;
+  int len;
+
+  public NumDp(int x) {
+    int[] tmp = new int[15];
+    len = 0;
+    while (x > 0) {
+      tmp[len++] = x % 10;
+      x /= 10;
+    }
+    num = new int[len];
+    for (int i = 0; i < len; i++) {
+      num[i] = tmp[len - 1 - i];
+    }
+    memo = new Long[len][1 << len];
+  }
+
+  public long getRes() {
+    return dfs(0, 0, true, true);
+  }
 
   // dfs(0, 0, true, true);
-  int dfs(int i, int st, boolean limit, boolean lead) {
+  long dfs(int i, int st, boolean limit, boolean lead) {
     // 算到num的最后一位
     if (i == num.length) {
       // 考虑能否取 0
@@ -19,7 +37,7 @@ public class NumDp {
       return memo[i][st];
     }
 
-    int res = 0;
+    long res = 0;
     // 可以跳过当前数位
     if (lead) {
       res = dfs(i + 1, st, false, true);
