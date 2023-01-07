@@ -31,7 +31,7 @@ public class FenwickTree {
   FenwickTree(long[] a) {
     this(a.length);
     for (int i = 0; i < n; i++) {
-      table[i] = a[i];
+      table[i] += a[i];
       int j = i + ((i + 1) & -(i + 1));
       if (j < n) {
         table[j] += table[i];
