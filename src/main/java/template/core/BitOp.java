@@ -19,6 +19,8 @@ public class BitOp {
   }
 
   public static boolean isPow2(int x) {
+    // x & (x - 1) == 0
+    // highbit(x) == x
     return x > 0 && x == lowbit(x);
   }
 
