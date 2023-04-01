@@ -45,6 +45,7 @@ public class DfsSequence {
   // int[] edge = new int[N];
   int p = 0;
 
+  // to fix bug
   // 无向图dfs找环
   // 标定时间戳，如果访问到已经访问的点，且不是父节点，且时间戳大于当前的说明有环
   void dfsCycle(int u) {
