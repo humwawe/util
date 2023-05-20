@@ -5,13 +5,13 @@ import java.util.Arrays;
 /**
  * @author PF-2CRL0N
  */
-public class DisjointSetRestorable {
+public class DJSetRestorable {
   public int[] upper; // minus:num_element(root) plus:root(normal)
   private int[] targets;
   private int[] histupper;
   public int hp = 0;
 
-  public DisjointSetRestorable(int n, int m) {
+  public DJSetRestorable(int n, int m) {
     upper = new int[n];
     Arrays.fill(upper, -1);
 
@@ -21,7 +21,7 @@ public class DisjointSetRestorable {
     //			w = new int[n];
   }
 
-  public DisjointSetRestorable(DisjointSetRestorable ds) {
+  public DJSetRestorable(DJSetRestorable ds) {
     this.upper = Arrays.copyOf(ds.upper, ds.upper.length);
     this.histupper = Arrays.copyOf(ds.histupper, ds.histupper.length);
     //
