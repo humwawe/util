@@ -2,7 +2,6 @@ package template.queue;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 /**
  * @author hum
@@ -177,7 +176,7 @@ public class SwagDeque<E> {
 
   @SuppressWarnings("unchecked")
   public E get(int index) {
-    Objects.checkIndex(index, size());
+//    Objects.checkIndex(index, size());
     return (E) val[index(index)];
   }
 
