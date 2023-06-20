@@ -5,12 +5,7 @@ package template.graph;
  */
 public class DfsSequence {
   int N = 15;
-  int M = N * 2;
-  int[] h = new int[N];
-  int[] e = new int[M];
-  int[] w = new int[M];
-  int[] ne = new int[M];
-  int idx;
+  Graph graph;
   // 记录每个点的进入和离开时间
   int[] in = new int[N];
   int[] out = new int[N];
@@ -19,8 +14,8 @@ public class DfsSequence {
   // 子树的标号是连续的，可以把子树问题转换为区间问题
   void dfs(int u, int p) {
     in[u] = ++tot;
-    for (int i = h[u]; i != -1; i = ne[i]) {
-      int j = e[i];
+    for (int i = graph.h[u]; i != -1; i = graph.ne[i]) {
+      int j = graph.e[i];
       if (j == p) {
         continue;
       }
