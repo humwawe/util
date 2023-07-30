@@ -48,6 +48,7 @@ public class NumDp {
     int low = lead ? 1 : 0;
 
     for (int j = low; j <= up; j++) {
+      // 处理某种条件
       if ((st >> j & 1) == 0) {
         res += dfs(i + 1, st | (1 << j), limit && j == up, false);
       }
