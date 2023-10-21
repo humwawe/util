@@ -1,10 +1,8 @@
-package template.tree;
+package template.core;
 
 import java.util.Arrays;
 
 /**
- * 操作时从0开始，区间操作左闭右开
- *
  * @author hum
  */
 public class FenwickTree {
@@ -12,12 +10,12 @@ public class FenwickTree {
   // 从0开始
   private final long[] table;
 
-  FenwickTree(int n) {
+  public FenwickTree(int n) {
     this.n = n;
     this.table = new long[n];
   }
 
-  FenwickTree(int n, long x) {
+  public FenwickTree(int n, long x) {
     this(n);
     for (int i = 0; i < n; i++) {
       table[i] += x;
@@ -28,7 +26,7 @@ public class FenwickTree {
     }
   }
 
-  FenwickTree(long[] a) {
+  public FenwickTree(long[] a) {
     this(a.length);
     for (int i = 0; i < n; i++) {
       table[i] += a[i];
@@ -47,26 +45,26 @@ public class FenwickTree {
     return sum;
   }
 
-  public void add(int i, long x) {
+  void add(int i, long x) {
     for (i++; i <= n; i += i & -i) {
       table[i - 1] += x;
     }
   }
 
-  public void set(int i, long x) {
+  void set(int i, long x) {
     add(i, x - get(i));
   }
 
-  public long get(int i) {
+  long get(int i) {
     return getSum(i + 1) - getSum(i);
   }
 
-  public long getSum(int l, int r) {
+  long getSum(int l, int r) {
     return l >= r ? 0 : getSum(r) - getSum(l);
   }
 
   // 二分查询最大的位置满足 前缀和 <= s
-  public int lowerBound(long x) {
+  int lowerBound(long x) {
     if (x <= 0) {
       return 0;
     }
@@ -80,7 +78,7 @@ public class FenwickTree {
     return pos;
   }
 
-  public long[] toList() {
+  long[] toList() {
     long[] res = new long[n];
     for (int i = 0; i < n; i++) {
       res[i] = get(i);
