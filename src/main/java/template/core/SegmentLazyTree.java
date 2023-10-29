@@ -37,7 +37,7 @@ public class SegmentLazyTree {
     // 有tag
     if (add[u] != 0) {
       // calLazy(u): 计算当前tag的当前层的影响
-      sum[u] = (right[u] - left[u] + 1) * add[u];
+      sum[u] += (right[u] - left[u] + 1) * add[u];
       // unionLazy: 有儿子节点，向下传递tag
       // tag对儿子层的影响未计算，每次查询时候发现有tag需要先pushDown
       if (left[u] != right[u]) {
@@ -89,7 +89,7 @@ public class SegmentLazyTree {
     pushDown(u);
 
     if (left[u] == l && right[u] == r) {
-      add[u] = d;
+      add[u] += d;
       return;
     }
 
