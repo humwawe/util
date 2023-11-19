@@ -57,6 +57,9 @@ public class SegmentTree {
   }
 
   int search(int u, int l, int r, int d) {
+    if (l > r) {
+      return -1;
+    }
     if (left[u] == l && right[u] == r) {
       if (max[u] < d) {
         return -1;
@@ -79,7 +82,7 @@ public class SegmentTree {
     } else {
       int pos = search(u << 1, l, mid, d);
       if (pos == -1) {
-        return search(u << 1 | 1, l, mid + 1, d);
+        return search(u << 1 | 1, mid + 1, r, d);
       }
       return pos;
     }
